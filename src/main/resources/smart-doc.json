@@ -1,0 +1,8 @@
+{
+  "serverUrl": "http://127.0.0.1:8009/project",
+  "isStrict": false,
+  "allInOne": true,
+  "outPath": "src/main/resources/static/doc",
+  "projectName": "springboot-project-doc",
+  "coverOld": true
+}
