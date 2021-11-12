@@ -2,10 +2,8 @@ server:
   port: 8009
   servlet:
     context-path: /project
-#配置mybatis-plus的mapper.xml位置
-mybatis-plus:
-  mapper-locations: classpath*:com/**/*.xml
-#连接mysql数据库
+#閰嶇疆mybatis-plus瀵瑰簲mapper.xml浣嶇疆
+#閰嶇疆鏁版嵁搴搈ysql
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/springboot-project?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
@@ -19,5 +17,10 @@ spring:
       max-wait: 30000
       initial-size: 20
       min-idle: 5
-      validation-query: select 1 from dual   #检查连接是否有效SQL
+      validation-query: select 1 from dual   #楠岃瘉鏁版嵁搴撳績璺崇殑SQL
       validation-query-timeout: 1
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/com/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
