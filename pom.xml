@@ -18,6 +18,7 @@
         <smart-doc.version>2.3.0</smart-doc.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <druid.version>1.2.6</druid.version>
+        <security.version>2.5.5</security.version>
     </properties>
     <dependencies>
         <!--引入redis包-->
@@ -51,6 +52,12 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus.version}</version>
+        </dependency>
+        <!--引入security-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
