@@ -19,6 +19,9 @@ spring:
       min-idle: 5
       validation-query: select 1 from dual   #验证数据库心跳的SQL
       validation-query-timeout: 1
+  mvc:
+    servlet:
+      load-on-startup: 1
 mybatis-plus:
   mapper-locations: classpath*:/mapper/com/**/*.xml
   configuration:
