@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.7.RELEASE</version>
+        <version>2.4.8</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.jiashn</groupId>
@@ -56,12 +56,12 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus.version}</version>
         </dependency>
-        <!--引入security-->
+        <!--&lt;!&ndash;引入security&ndash;&gt;
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
             <version>${security.version}</version>
-        </dependency>
+        </dependency>-->
         <!--邮件信息-->
         <dependency>
             <groupId>com.sun.mail</groupId>

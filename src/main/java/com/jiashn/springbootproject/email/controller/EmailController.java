@@ -2,6 +2,7 @@ package com.jiashn.springbootproject.email.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.jiashn.springbootproject.email.entity.EmailInfo;
+import com.jiashn.springbootproject.email.entity.ReqEmail;
 import com.jiashn.springbootproject.email.service.EmailService;
 import com.jiashn.springbootproject.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class EmailController {
     private EmailService emailService;
 
     @PostMapping("/sendEmail.do")
-    public ResultUtil<?> sendEmail(@RequestBody EmailInfo emailInfo){
-        return ResultUtil.success();
+    public ResultUtil<?> sendEmail(ReqEmail reqEmail){
+        return emailService.sendEmail(reqEmail);
     }
 
     @PostMapping("/recipientEmail.do")

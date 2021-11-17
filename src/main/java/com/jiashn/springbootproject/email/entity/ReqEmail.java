@@ -1,6 +1,7 @@
 package com.jiashn.springbootproject.email.entity;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Properties;
 
@@ -36,10 +37,8 @@ public class ReqEmail extends EmailInfo {
      */
     private String subject;
     /**
-     * 邮件附件的文件名
+     * 邮件附件
      */
-    private String[] attachFileNames;
-
-
+    private MultipartFile[] attachFiles;
 
 }

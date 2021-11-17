@@ -39,6 +39,11 @@ public class EmailInfo {
     private String password;
 
     /**
+     * 查询类型
+     */
+    private String type;
+
+    /**
      * 获取邮件的会话信息
      * @return 返回各种属性值
      */
@@ -47,13 +52,28 @@ public class EmailInfo {
         //默认的邮件传输协议
         properties.setProperty("mail.transport.protocol","smtp");
         //默认的存储邮件协议
-        properties.setProperty("mail.store.protocol","pop3");
+        properties.setProperty("mail.store.protocol","imap");
         //设置邮件主机名
-        properties.setProperty("mail.host",mailServerHost);
+        properties.setProperty("mail.imap.host",mailServerHost);
         //设置邮件端口号
-        properties.setProperty("mail.port",mailServerPort);
+        properties.setProperty("mail.imap.port",mailServerPort);
         //设置是否安全验证，默认为false
         properties.setProperty("mail.smtp.auth", String.valueOf(this.validate));
+        return properties;
+    }
+
+    /**
+     * 获取邮件的会话信息
+     * @return 返回各种属性值
+     */
+    public Properties getSendProperties(){
+        Properties properties = new Properties();
+        //默认的邮件传输协议
+        properties.setProperty("mail.smtp.auth","true");
+        //默认的存储邮件协议
+        properties.setProperty("mail.transport.protocol","smtp");
+        //设置邮件主机名
+        properties.setProperty("mail.smtp.host",mailServerHost);
         return properties;
     }
 

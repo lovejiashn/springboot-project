@@ -1,5 +1,5 @@
 server:
-  port: 8009
+  port: 8010
   servlet:
     context-path: /project
 #配置mybatis-plus对应mapper.xml位置
@@ -19,11 +19,9 @@ spring:
       min-idle: 5
       validation-query: select 1 from dual   #验证数据库心跳的SQL
       validation-query-timeout: 1
-  mvc:
-    servlet:
-      load-on-startup: 1
 mybatis-plus:
   mapper-locations: classpath*:/mapper/com/**/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
+#上传文件夹信息
+upload-filePath: D:/xmjg/file
