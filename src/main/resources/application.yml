@@ -19,9 +19,20 @@ spring:
       min-idle: 5
       validation-query: select 1 from dual   #验证数据库心跳的SQL
       validation-query-timeout: 1
+#设置上传文件大小
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 mybatis-plus:
   mapper-locations: classpath*:/mapper/com/**/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#minio配置
+minio:
+  endpoint: http://192.168.2.68:9006/
+  accessKey: xmjg_agcloud
+  secretKey: xmjg_agcloud
+  bucketName: email
 #上传文件夹信息
 upload-filePath: D:/xmjg/file
