@@ -13,10 +13,11 @@ import javax.annotation.Resource;
  * @Date: 2021/11/18 11:09
  **/
 @Configuration
+@EnableConfigurationProperties(MinioPropertiesConfig.class)
 public class MinioConfig {
 
     @Resource
-    private MinioPropertiesConfig propertiesConfig;
+    private MinioPropertiesConfig minioPropertiesConfig;
 
     /**
      * 初始化Minio客户端
@@ -25,8 +26,8 @@ public class MinioConfig {
     @Bean
     public MinioClient minioClient(){
         MinioClient minioClient = MinioClient.builder()
-                .endpoint(propertiesConfig.getEndpoint())
-                .credentials(propertiesConfig.getAccessKey(),propertiesConfig.getSecretKey())
+                .endpoint(minioPropertiesConfig.getEndpoint())
+                .credentials(minioPropertiesConfig.getAccessKey(),minioPropertiesConfig.getSecretKey())
                 .build();
         return minioClient;
     }

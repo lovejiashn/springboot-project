@@ -1,5 +1,6 @@
 package com.jiashn.springbootproject.minio.service.impl;
 
+import com.jiashn.springbootproject.minio.enums.BucketEnum;
 import com.jiashn.springbootproject.minio.service.MinioFileManageService;
 import com.jiashn.springbootproject.utils.MinioUtil;
 import com.jiashn.springbootproject.utils.ResultUtil;
@@ -39,13 +40,13 @@ public class MinioFileManageServiceImpl implements MinioFileManageService {
 
     @Override
     public ResultUtil<List<Map<String,String>>> upLoadFiles(MultipartFile[] files) {
-        List<Map<String,String>> filePaths = minioUtil.upLoadFileBackFileName(files, "email");
+        List<Map<String,String>> filePaths = minioUtil.upLoadFileBackFileName(files, BucketEnum.EMAIL.getName());
         return ResultUtil.success(filePaths);
     }
 
     @Override
     public ResultUtil<?> downFile(String filePath) {
-        InputStream inputStream = minioUtil.downLoadFile("email", filePath);
+        InputStream inputStream = minioUtil.downLoadFile(BucketEnum.EMAIL.getName(), filePath);
         File file = new File(path+"\\测试.png");
         try {
             FileUtils.copyInputStreamToFile(inputStream,file);
@@ -65,7 +66,7 @@ public class MinioFileManageServiceImpl implements MinioFileManageService {
 
     @Override
     public ResultUtil<List<String>> upLoadFileBackUrl(MultipartFile[] files) {
-        List<String> fileUrls = minioUtil.upLoadFileBackUrl(files, "email");
+        List<String> fileUrls = minioUtil.upLoadFileBackUrl(files, BucketEnum.EMAIL.getName());
         for (String fileUrl : fileUrls) {
             String url = shortUrlGenerator.shortUrl(fileUrl);
             log.info("生成的短连接:{}",url);

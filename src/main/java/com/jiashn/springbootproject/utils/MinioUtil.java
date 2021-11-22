@@ -1,11 +1,7 @@
 package com.jiashn.springbootproject.utils;
 
-import com.jiashn.springbootproject.config.MinioConfig;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import io.minio.*;
-import io.minio.errors.*;
 import io.minio.http.Method;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 /**
@@ -158,7 +151,7 @@ public class MinioUtil {
      */
     public boolean removeFile(String bucketName,String filePath){
         try {
-            minioClient.deleteObjectTags(DeleteObjectTagsArgs.builder()
+            minioClient.removeObject(RemoveObjectArgs.builder()
                     .bucket(bucketName).object(filePath)
                     .build());
             return Boolean.TRUE;
