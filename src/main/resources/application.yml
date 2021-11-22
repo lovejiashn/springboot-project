@@ -34,5 +34,8 @@ minio:
   accessKey: xmjg_agcloud
   secretKey: xmjg_agcloud
   bucketName: email
+
+#缩我短连接服务key
+shortUrl_key: 619b4c6aaee1e8601a82adb7@41bf4c7848ab5ef6e6bd1e4329c503c1
 #上传文件夹信息
 upload-filePath: D:/xmjg/file

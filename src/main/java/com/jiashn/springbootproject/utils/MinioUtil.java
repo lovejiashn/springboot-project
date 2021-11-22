@@ -4,22 +4,20 @@ import com.jiashn.springbootproject.config.MinioConfig;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 import io.minio.*;
 import io.minio.errors.*;
+import io.minio.http.Method;
 import org.apache.tomcat.util.security.MD5Encoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import sun.security.provider.MD5;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @Author: jiangjs
@@ -57,25 +55,28 @@ public class MinioUtil {
      * @param bucketName 桶名称
      * @return 返回名称
      */
-    public List<String> upLoadFileBackFileName(MultipartFile[] files,String bucketName){
-        List<String> backNames = new ArrayList<>(files.length);
+    public List<Map<String,String>> upLoadFileBackFileName(MultipartFile[] files,String bucketName){
+        List<Map<String,String>> backNames = new ArrayList<>(files.length);
         InputStream ins = null;
         try {
             //验证当前桶是否存在
             existBucket(bucketName);
             for (MultipartFile file : files) {
+                Map<String, String> fileMap = new HashMap<>(2);
                 String fileName = file.getOriginalFilename();
+                fileMap.put("fileName",fileName);
                 //设置MD5
-                String fileCode = MD5Encoder.encode(fileName.getBytes());
+                String fileCode = Md5Util.md5Encode(fileName);
+                fileMap.put("fileRecode",fileCode);
                 ins = file.getInputStream();
                 minioClient.putObject(PutObjectArgs.builder()
                         .bucket(bucketName)
-                        .object(fileCode)
+                        .object(fileName)
                         .stream(ins,ins.available(),-1)
                         .contentType(file.getContentType())
                         .build()
                 );
-                backNames.add(fileCode);
+                backNames.add(fileMap);
             }
         }catch (Exception e){
             log.error("minio上传文件报错：{}",e.getMessage());
@@ -94,9 +95,9 @@ public class MinioUtil {
 
     /**
      * 下载文件地址
-     * @param bucketName
-     * @param fileName
-     * @return
+     * @param bucketName 桶名称
+     * @param fileName 文件名称
+     * @return 返回文件流
      */
     public InputStream downLoadFile(String bucketName,String fileName){
         InputStream ins = null;
@@ -112,5 +113,59 @@ public class MinioUtil {
         return ins;
     }
 
+    public List<String> upLoadFileBackUrl(MultipartFile[] files,String bucketName){
+        InputStream ins = null;
+        List<String> fileUrls = new ArrayList<>(files.length);
+        existBucket(bucketName);
+        try {
+            for (MultipartFile file : files) {
+                ins = file.getInputStream();
+                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+                String contentType = file.getContentType();
+                minioClient.putObject(PutObjectArgs.builder()
+                        .bucket(bucketName)
+                        .contentType(contentType)
+                        .object(fileName)
+                        .stream(ins,ins.available(),-1)
+                        .build());
+                String objectUrl = minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                        .bucket(bucketName)
+                        .object(fileName)
+                        .method(Method.GET)
+                        .build());
+                fileUrls.add(objectUrl);
+            }
+        }catch (Exception e){
+            log.error("上传文件报错：{}",e.getMessage());
+            e.printStackTrace();
+        }finally {
+            if (Objects.nonNull(ins)){
+                try {
+                    ins.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return fileUrls;
+    }
 
+    /**
+     * 删除上传的文件
+     * @param bucketName 桶名称
+     * @param filePath 文件信息
+     * @return 返回删除结果
+     */
+    public boolean removeFile(String bucketName,String filePath){
+        try {
+            minioClient.deleteObjectTags(DeleteObjectTagsArgs.builder()
+                    .bucket(bucketName).object(filePath)
+                    .build());
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            log.error("删除文件信息报错：{}",e.getMessage());
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+    }
 }

@@ -13,7 +13,6 @@ import javax.annotation.Resource;
  * @Date: 2021/11/18 11:09
  **/
 @Configuration
-@EnableConfigurationProperties(MinioPropertiesConfig.class)
 public class MinioConfig {
 
     @Resource

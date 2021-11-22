@@ -1,6 +1,7 @@
 package com.jiashn.springbootproject.config;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -11,23 +12,26 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 @Data
-@ConfigurationProperties(prefix = "minio")
 public class MinioPropertiesConfig {
 
     /**
      * 端点
      */
+    @Value("${minio.endpoint}")
     private String endpoint;
     /**
      * 用户名
      */
+    @Value("${minio.accessKey}")
     private String accessKey;
     /**
      * 密码
      */
+    @Value("${minio.secretKey}")
     private String secretKey;
     /**
      * 桶名称
      */
+    @Value("${minio.bucketName}")
     private String bucketName;
 }
