@@ -2,9 +2,9 @@ package com.jiashn.springbootproject.minio.service.impl;
 
 import com.jiashn.springbootproject.minio.enums.BucketEnum;
 import com.jiashn.springbootproject.minio.service.MinioFileManageService;
+import com.jiashn.springbootproject.shorUrl.ShortUrlServerEnum;
 import com.jiashn.springbootproject.utils.MinioUtil;
 import com.jiashn.springbootproject.utils.ResultUtil;
-import com.jiashn.springbootproject.utils.ShortUrlGenerator;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +35,6 @@ public class MinioFileManageServiceImpl implements MinioFileManageService {
     @Value("${upload-filePath}")
     private String path;
 
-    @Autowired
-    private ShortUrlGenerator shortUrlGenerator;
-
     @Override
     public ResultUtil<List<Map<String,String>>> upLoadFiles(MultipartFile[] files) {
         List<Map<String,String>> filePaths = minioUtil.upLoadFileBackFileName(files, BucketEnum.EMAIL.getName());
@@ -67,10 +64,8 @@ public class MinioFileManageServiceImpl implements MinioFileManageService {
     @Override
     public ResultUtil<List<String>> upLoadFileBackUrl(MultipartFile[] files) {
         List<String> fileUrls = minioUtil.upLoadFileBackUrl(files, BucketEnum.EMAIL.getName());
-        for (String fileUrl : fileUrls) {
-            String url = shortUrlGenerator.shortUrl(fileUrl);
-            log.info("生成的短连接:{}",url);
-        }
+        String shortUrl = ShortUrlServerEnum.SINA.getShortUrlServer().createShortUrl("https://www.baidu.com/", "2021-12-31");
+        log.info("生成短连接：{}",shortUrl);
         return ResultUtil.success(fileUrls);
     }
 }

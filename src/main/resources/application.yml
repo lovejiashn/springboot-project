@@ -30,12 +30,17 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #minio配置
 minio:
-  endpoint: http://192.168.2.68:9006/
-  accessKey: xmjg_agcloud
-  secretKey: xmjg_agcloud
+  endpoint: http://192.168.2.70:9000/
+  accessKey: queena
+  secretKey: queena1991
   bucketName: email
 
 #缩我短连接服务key
 shortUrl_key: 619b4c6aaee1e8601a82adb7@41bf4c7848ab5ef6e6bd1e4329c503c1
+shortApi_url: http://api.suowo.cn/api.htm
+
+#新浪短连接生成地址key
+sina_short_url_key: d3587cfeb3797cd57c2476bf0bb2ef3d
+sina_api_url: https://www.mynb8.com/api3/sina.html
 #上传文件夹信息
 upload-filePath: D:/xmjg/file
