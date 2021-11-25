@@ -54,7 +54,8 @@ public class MinioFileManageServiceImpl implements MinioFileManageService {
                     .setCreateTime(LocalDateTime.now())
                     .setFileName(fileName)
                     .setFilePath(map.get("fileRecode"))
-                    .setSuffix(suffix);
+                    .setSuffix(suffix)
+                    .setCreateTime(LocalDateTime.now());
             sysFileMapper.insert(sysFile);
         }
         return ResultUtil.success("上传成功");

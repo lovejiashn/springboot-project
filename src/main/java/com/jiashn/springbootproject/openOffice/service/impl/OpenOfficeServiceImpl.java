@@ -82,7 +82,8 @@ public class OpenOfficeServiceImpl implements OpenOfficeService {
                     urlStream = urlConn.getInputStream();
                 }
                 if (Objects.nonNull(urlStream)){
-                    sourceFile = path+"\\"+localSecond+"."+suffix;
+                    String second = String.valueOf(System.currentTimeMillis());
+                    sourceFile = path+"\\"+second+"."+suffix;
                     File file = new File(sourceFile);
                     FileUtils.copyInputStreamToFile(urlStream,file);
                 }
