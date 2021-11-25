@@ -25,7 +25,7 @@ public class MinioFileManageController {
     private MinioFileManageService fileManageService;
 
     @RequestMapping("/upLoadFiles.do")
-    public ResultUtil<List<Map<String,String>>> upLoadFiles(MultipartFile[] files){
+    public ResultUtil<?> upLoadFiles(MultipartFile[] files){
         return fileManageService.upLoadFiles(files);
     }
 

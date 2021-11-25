@@ -18,7 +18,7 @@ public interface MinioFileManageService {
      * @param files 多文件数组
      * @return 返回保存数据信息
      */
-    ResultUtil<List<Map<String,String>>> upLoadFiles(MultipartFile[] files);
+    ResultUtil<?> upLoadFiles(MultipartFile[] files);
 
     /**
      * 获取文件信息

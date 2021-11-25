@@ -1,0 +1,18 @@
+package com.jiashn.springbootproject.openOffice.service;
+
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * @Author: jiangjs
+ * @Description:
+ * @Date: 2021/11/25 10:03
+ **/
+public interface OpenOfficeService {
+
+    /**
+     * 在线打开office
+     * @param param 传递参数。即：url,或minio的MD5
+     * @param response 响应
+     */
+    void openOfficeOnlinePreview(String param, HttpServletResponse response);
+}

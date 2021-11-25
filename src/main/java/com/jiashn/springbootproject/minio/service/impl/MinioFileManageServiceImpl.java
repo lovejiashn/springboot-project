@@ -1,6 +1,10 @@
 package com.jiashn.springbootproject.minio.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.jiashn.springbootproject.minio.entity.SysFile;
 import com.jiashn.springbootproject.minio.enums.BucketEnum;
+import com.jiashn.springbootproject.minio.mapper.SysFileMapper;
 import com.jiashn.springbootproject.minio.service.MinioFileManageService;
 import com.jiashn.springbootproject.shorUrl.ShortUrlServerEnum;
 import com.jiashn.springbootproject.utils.MinioUtil;
@@ -16,8 +20,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @Author: jiangjs
@@ -31,20 +37,40 @@ public class MinioFileManageServiceImpl implements MinioFileManageService {
 
     @Autowired
     private MinioUtil minioUtil;
+    @Autowired
+    private SysFileMapper sysFileMapper;
 
     @Value("${upload-filePath}")
     private String path;
 
     @Override
-    public ResultUtil<List<Map<String,String>>> upLoadFiles(MultipartFile[] files) {
+    public ResultUtil<?> upLoadFiles(MultipartFile[] files) {
         List<Map<String,String>> filePaths = minioUtil.upLoadFileBackFileName(files, BucketEnum.EMAIL.getName());
-        return ResultUtil.success(filePaths);
+        for (Map<String, String> map : filePaths) {
+            SysFile sysFile = new SysFile();
+            String fileName = map.get("fileName");
+            String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+            sysFile.setBusinessType("email")
+                    .setCreateTime(LocalDateTime.now())
+                    .setFileName(fileName)
+                    .setFilePath(map.get("fileRecode"))
+                    .setSuffix(suffix);
+            sysFileMapper.insert(sysFile);
+        }
+        return ResultUtil.success("上传成功");
     }
 
     @Override
     public ResultUtil<?> downFile(String filePath) {
-        InputStream inputStream = minioUtil.downLoadFile(BucketEnum.EMAIL.getName(), filePath);
-        File file = new File(path+"\\测试.png");
+        Wrapper<SysFile> fileWrapper = Wrappers.<SysFile>lambdaQuery()
+                .eq(SysFile::getFilePath,filePath);
+        //获取文件原始名称
+        SysFile sysFile = sysFileMapper.selectOne(fileWrapper);
+        if (Objects.isNull(sysFile)){
+            return ResultUtil.error("该文件未找到");
+        }
+        InputStream inputStream = minioUtil.downLoadFile(BucketEnum.EMAIL.getName(), sysFile.getFileName());
+        File file = new File(path+"\\"+sysFile.getFileName());
         try {
             FileUtils.copyInputStreamToFile(inputStream,file);
         } catch (IOException e) {
@@ -57,7 +83,14 @@ public class MinioFileManageServiceImpl implements MinioFileManageService {
 
     @Override
     public ResultUtil<?> removeFile(String filePath) {
-        boolean b = minioUtil.removeFile("email",filePath);
+        Wrapper<SysFile> fileWrapper = Wrappers.<SysFile>lambdaQuery()
+                .eq(SysFile::getFilePath,filePath);
+        //获取文件原始名称
+        SysFile sysFile = sysFileMapper.selectOne(fileWrapper);
+        if (Objects.isNull(sysFile)){
+            return ResultUtil.error("该文件未找到");
+        }
+        boolean b = minioUtil.removeFile(BucketEnum.EMAIL.getName(),sysFile.getFileName());
         return b ? ResultUtil.success() : ResultUtil.error("删除失败");
     }
 
