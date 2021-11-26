@@ -49,4 +49,26 @@ public class OfficeToPdfUtil {
             OfficeUtils.stopQuietly(manager);
         }
     }
+    public InputStream officeToPdf(File sourceFile, String destFile){
+        OfficeManager manager = LocalOfficeManager.builder().install()
+                .officeHome(officeHome)
+                .build();
+        try {
+            File outFile = new File(destFile);
+            if (!outFile.getParentFile().exists()){
+                outFile.getParentFile().mkdirs();
+            }
+            manager.start();
+            JodConverter.convert(sourceFile).to(outFile).execute();
+            InputStream inputStream = new FileInputStream(destFile);
+            //为节约空间，删除已转换后的文件
+            return inputStream;
+        }catch (Exception e){
+            log.error("office转换pdf报错：{}",e.getMessage());
+            e.printStackTrace();
+            return null;
+        }finally {
+            OfficeUtils.stopQuietly(manager);
+        }
+    }
 }

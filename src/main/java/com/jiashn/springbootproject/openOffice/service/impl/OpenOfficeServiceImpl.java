@@ -17,17 +17,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.*;
+import java.net.*;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * @Author: jiangjs
@@ -51,17 +48,20 @@ public class OpenOfficeServiceImpl implements OpenOfficeService {
     /**
      * 支持在线查看的文件格式
      */
-    public static final List<String> FILE_SUFFIX = Arrays.asList("txt","doc","docx","xls","xlsx","ppt","pptx");
+    public static final List<String> FILE_SUFFIX = Arrays.asList("jpg","png","txt","doc","docx","xls","xlsx","ppt","pptx");
     public static final String HTTP = "http";
     @Override
     public void openOfficeOnlinePreview(String param, HttpServletResponse response) {
         InputStream inputStream = null;
         OutputStream outputStream = null;
-        String sourceFile = "";
-        String destFile = "";
+        File sourceFile = null;
+        String localSecond = String.valueOf(System.currentTimeMillis());
+        String destFile = path+"\\"+localSecond+".pdf";
         boolean isDelSourceFile = false;
         InputStream urlStream = null;
-        String localSecond = String.valueOf(System.currentTimeMillis());
+        ReadableByteChannel readableByteChannel = null;
+        FileChannel fileChannel = null;
+        FileOutputStream fileOutputStream = null;
         try{
             //校验当前传递参数是否是url或md5数据
             String suffix = param.substring(param.lastIndexOf(".") + 1);
@@ -71,27 +71,30 @@ public class OpenOfficeServiceImpl implements OpenOfficeService {
                     log.info("{}:该文件格式不支持在线查看",suffix);
                     return;
                 }
-                //将URL文件转换成pdf
                 URL url = new URL(param);
-                // 试图连接并取得返回状态码
+                readableByteChannel = Channels.newChannel(url.openStream());
+                String fileName = path + "\\" + localSecond + "."+suffix;
+                sourceFile = new File(fileName);
+                fileOutputStream = new FileOutputStream(sourceFile);
+                fileChannel = fileOutputStream.getChannel();
+                fileChannel.transferFrom(readableByteChannel,0,Long.MAX_VALUE);
+                /*// 试图连接并取得返回状态码
                 URLConnection urlConn = url.openConnection();
                 urlConn.connect();
-                HttpURLConnection httpConn = (HttpURLConnection) urlConn;
-                int httpResult = httpConn.getResponseCode();
+                HttpURLConnection httpconn = (HttpURLConnection) urlConn;
+                int httpResult = httpconn.getResponseCode();
                 if (httpResult == HttpURLConnection.HTTP_OK) {
                     urlStream = urlConn.getInputStream();
                 }
-                if (Objects.nonNull(urlStream)){
-                    String second = String.valueOf(System.currentTimeMillis());
-                    sourceFile = path+"\\"+second+"."+suffix;
-                    File file = new File(sourceFile);
-                    FileUtils.copyInputStreamToFile(urlStream,file);
-                }
+                MultipartFile file =
+
+                sourceFile = HttpUrlToFile.getNetHttpToFile(param, fileName);*/
             } else {
                 //验证参数中是否带有后缀名
                 if (FILE_SUFFIX.contains(suffix)){
                     //默认是本地文件
-                    sourceFile = path + "\\" + param;
+                    String pathFile = path + "\\" + param;
+                    sourceFile = new File(pathFile);
                 } else {
                     Wrapper<SysFile> fileWrapper = Wrappers.<SysFile>lambdaQuery()
                             .eq(SysFile::getFilePath,param);
@@ -107,13 +110,12 @@ public class OpenOfficeServiceImpl implements OpenOfficeService {
                     }
                     //通过minio获取文件流
                     urlStream = minioUtil.downLoadFile(BucketEnum.EMAIL.getName(), sysFile.getFileName());
-                    sourceFile = path+"\\"+sysFile.getFileName();
+                    String filePath = path+"\\"+sysFile.getFileName();
                     isDelSourceFile = true;
-                    File file = new File(sourceFile);
-                    FileUtils.copyInputStreamToFile(urlStream,file);
+                    sourceFile = new File(filePath);
+                    FileUtils.copyInputStreamToFile(urlStream,sourceFile);
                 }
             }
-            destFile = path+"\\"+localSecond+".pdf";
             inputStream = officeToPdfUtil.officeToPdf(sourceFile,destFile);
             outputStream = response.getOutputStream();
             byte[] buff = new byte[1024];
@@ -129,29 +131,36 @@ public class OpenOfficeServiceImpl implements OpenOfficeService {
         }catch (Exception e){
             log.error("在线查看文件报错：{}",e.getMessage());
             e.printStackTrace();
-            return;
         }finally {
-            if (Objects.nonNull(outputStream)){
-                try {
+            try{
+                if (Objects.nonNull(outputStream)){
                     outputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            }
-            if (Objects.nonNull(inputStream)){
-                try {
+                if (Objects.nonNull(inputStream)){
                     inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+                if (Objects.nonNull(readableByteChannel)) {
+                    readableByteChannel.close();
+                }
+                if (Objects.nonNull(fileChannel)) {
+                    fileChannel.close();
+                }
+                if (Objects.nonNull(fileOutputStream)) {
+                    fileOutputStream.close();
+                }
+
+                if (Objects.nonNull(urlStream)) {
+                    urlStream.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
             if (StringUtils.isNotBlank(destFile)){
                 File file = new File(destFile);
                 file.delete();
             }
-            if (isDelSourceFile && StringUtils.isNotBlank(sourceFile)){
-                File file = new File(sourceFile);
-                file.delete();
+            if (isDelSourceFile && Objects.nonNull(sourceFile)){
+                sourceFile.delete();
             }
         }
     }
