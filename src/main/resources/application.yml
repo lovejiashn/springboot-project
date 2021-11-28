@@ -31,8 +31,8 @@ mybatis-plus:
 #minio配置
 minio:
   endpoint: http://192.168.2.70:9000/
-  accessKey: minioadmin
-  secretKey: minioadmin
+  accessKey: queena
+  secretKey: queena1991
 
 #缩我短连接服务key
 shortUrl_key: 619b4c6aaee1e8601a82adb7@41bf4c7848ab5ef6e6bd1e4329c503c1

@@ -1,4 +1,4 @@
-package com.jiashn.springbootproject.utils;
+package com.jiashn.springbootproject.office.util;
 
 import org.jodconverter.core.office.OfficeManager;
 import org.jodconverter.core.office.OfficeUtils;
@@ -19,9 +19,9 @@ import java.io.InputStream;
  * @Date: 2021/11/25 14:52
  **/
 @Component
-public class OfficeToPdfUtil {
+public class JodOfficeToPdfUtil {
 
-    private final static Logger log = LoggerFactory.getLogger(OfficeToPdfUtil.class);
+    private final static Logger log = LoggerFactory.getLogger(JodOfficeToPdfUtil.class);
 
     @Value("${openoffice-path}")
     private String officeHome;

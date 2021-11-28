@@ -1,6 +1,6 @@
-package com.jiashn.springbootproject.openOffice.controller;
+package com.jiashn.springbootproject.office.controller;
 
-import com.jiashn.springbootproject.openOffice.service.OpenOfficeService;
+import com.jiashn.springbootproject.office.service.OpenOfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

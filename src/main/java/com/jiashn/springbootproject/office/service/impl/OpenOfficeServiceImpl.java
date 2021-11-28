@@ -1,13 +1,14 @@
-package com.jiashn.springbootproject.openOffice.service.impl;
+package com.jiashn.springbootproject.office.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.jiashn.springbootproject.minio.entity.SysFile;
 import com.jiashn.springbootproject.minio.enums.BucketEnum;
 import com.jiashn.springbootproject.minio.mapper.SysFileMapper;
-import com.jiashn.springbootproject.openOffice.service.OpenOfficeService;
+import com.jiashn.springbootproject.office.service.OpenOfficeService;
+import com.jiashn.springbootproject.office.util.AsposeOfficeToPdfUtil;
 import com.jiashn.springbootproject.utils.MinioUtil;
-import com.jiashn.springbootproject.utils.OfficeToPdfUtil;
+import com.jiashn.springbootproject.office.util.JodOfficeToPdfUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -40,7 +41,9 @@ public class OpenOfficeServiceImpl implements OpenOfficeService {
     @Autowired
     private MinioUtil minioUtil;
     @Autowired
-    private OfficeToPdfUtil officeToPdfUtil;
+    private JodOfficeToPdfUtil jodOfficeToPdfUtil;
+    @Autowired
+    private AsposeOfficeToPdfUtil asposeOfficeToPdfUtil;
 
     @Value("${upload-filePath}")
     private String path;
@@ -116,7 +119,7 @@ public class OpenOfficeServiceImpl implements OpenOfficeService {
                     FileUtils.copyInputStreamToFile(urlStream,sourceFile);
                 }
             }
-            inputStream = officeToPdfUtil.officeToPdf(sourceFile,destFile);
+            inputStream = jodOfficeToPdfUtil.officeToPdf(sourceFile,destFile);
             outputStream = response.getOutputStream();
             byte[] buff = new byte[1024];
             //所读取的内容使用n来接收
@@ -161,6 +164,56 @@ public class OpenOfficeServiceImpl implements OpenOfficeService {
             }
             if (isDelSourceFile && Objects.nonNull(sourceFile)){
                 sourceFile.delete();
+            }
+        }
+    }
+
+    @Override
+    public void asposeOfficeOnlinePreview(String param, HttpServletResponse response) {
+        String suffix = param.substring(param.lastIndexOf(".") + 1);
+        FileInputStream fis = null;
+        OutputStream os = null;
+        String destFilePath = null;
+        try {
+            if (FILE_SUFFIX.contains(suffix)){
+                String filePath = path + "\\" + param;
+                destFilePath = path + "\\" + System.currentTimeMillis() + ".pdf";
+                boolean checkedLicense = asposeOfficeToPdfUtil.checkedLicense(suffix);
+                if (checkedLicense){
+                    boolean officeToPdf = asposeOfficeToPdfUtil.officeToPdf(filePath, destFilePath, suffix);
+                    if (officeToPdf){
+                        //浏览器显示pdf
+                        response.setContentType("application/pdf");
+                        fis = new FileInputStream(destFilePath);
+                        os = response.getOutputStream();
+                        byte[] bytes = new byte[1024];
+                        int n;
+                        //当没有读取完时,继续读取,循环
+                        while((n = fis.read(bytes))!=-1){
+                            //将字节数组的数据全部写入到输出流中
+                            os.write(bytes,0,n);
+                        }
+                        //强制将缓存区的数据进行输出
+                        os.flush();
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                if (Objects.nonNull(os)){
+                    os.close();
+                }
+                if (Objects.nonNull(fis)){
+                    fis.close();
+                }
+                if (StringUtils.isNotBlank(destFilePath)){
+                    File file = new File(destFilePath);
+                    file.delete();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
     }
