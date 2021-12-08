@@ -6,10 +6,13 @@ import com.jiashn.springbootproject.minio.entity.SysFile;
 import com.jiashn.springbootproject.minio.enums.BucketEnum;
 import com.jiashn.springbootproject.minio.mapper.SysFileMapper;
 import com.jiashn.springbootproject.minio.service.MinioFileManageService;
+import com.jiashn.springbootproject.office.util.AsposeOfficeToPdfUtil;
 import com.jiashn.springbootproject.shorUrl.ShortUrlServerEnum;
+import com.jiashn.springbootproject.utils.Base64UseUtil;
 import com.jiashn.springbootproject.utils.MinioUtil;
 import com.jiashn.springbootproject.utils.ResultUtil;
 import org.apache.commons.io.FileUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,13 +39,15 @@ public class MinioFileManageServiceImpl implements MinioFileManageService {
 
     private static final Logger log = LoggerFactory.getLogger(MinioFileManageServiceImpl.class);
 
-    @Autowired
+    @Resource
     private MinioUtil minioUtil;
-    @Autowired
+    @Resource
     private SysFileMapper sysFileMapper;
 
     @Value("${upload-filePath}")
     private String path;
+    @Autowired
+    private AsposeOfficeToPdfUtil officeToPdfUtil;
 
     @Override
     public ResultUtil<?> upLoadFiles(MultipartFile[] files) {
@@ -101,5 +107,22 @@ public class MinioFileManageServiceImpl implements MinioFileManageService {
         String shortUrl = ShortUrlServerEnum.SINA.getShortUrlServer().createShortUrl("https://www.baidu.com/", "2021-12-31");
         log.info("生成短连接：{}",shortUrl);
         return ResultUtil.success(fileUrls);
+    }
+
+    @Override
+    public byte[] getFileInputStream(String fileName) {
+        InputStream inputStream = minioUtil.downLoadFile(BucketEnum.EMAIL.getName(), fileName);
+        //如果doc则转化成docx
+        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (Objects.equals("doc",suffix)){
+            boolean checkedLicense = officeToPdfUtil.checkedLicense(suffix);
+            if (checkedLicense){
+                String name = fileName.substring(0,fileName.lastIndexOf(suffix));
+                String destFile = path + "/" + name + "doc";
+                inputStream = officeToPdfUtil.changeFileToDocx(inputStream, destFile);
+            }
+        }
+        byte[] bytes = Base64UseUtil.byteFromInputStream(inputStream);
+        return bytes;
     }
 }

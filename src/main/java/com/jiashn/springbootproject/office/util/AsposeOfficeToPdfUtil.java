@@ -6,6 +6,8 @@ import com.aspose.words.Document;
 import com.aspose.words.FontSettings;
 import com.aspose.words.License;
 import com.aspose.words.SaveFormat;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -177,5 +179,40 @@ public class AsposeOfficeToPdfUtil {
             }
         }
         return changeRes;
+    }
+
+
+    public InputStream changeFileToDocx(InputStream sourceFile, String destFile){
+        FileOutputStream fos = null;
+        FileInputStream fis = null;
+        Document doc;
+        //linux环境转换出现乱码，则在usr/share/font安装windows字符集
+        if (System.getProperty(SYSTEM_PROPERTY).toLowerCase().contains(SYSTEM_NAME)){
+            FontSettings.getDefaultInstance().setFontsFolder(File.separator + "usr"+
+                    File.separator + "share" + File.separator + "font" + File.separator,true);
+        }
+        try {
+            fos = new FileOutputStream(destFile);
+            doc = new Document(sourceFile);
+            doc.save(fos, SaveFormat.DOCX);
+            fis = FileUtils.openInputStream(new File(destFile));
+        } catch (Exception e) {
+            log.error("doc转换pdf报错:{}",e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (Objects.nonNull(fos)){
+                    fos.close();
+                }
+                if (StringUtils.isNotBlank(destFile)){
+                    File file = new File(destFile);
+                    file.delete();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        return fis;
     }
 }

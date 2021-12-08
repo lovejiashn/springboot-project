@@ -43,4 +43,8 @@ public class MinioFileManageController {
     public ResultUtil<?> removeFile(@PathVariable("filePath") String filePath){
         return fileManageService.removeFile(filePath);
     }
+    @GetMapping("/getFileInputStream.do/{fileName}")
+    public byte[] getFileInputStream(@PathVariable("fileName") String fileName){
+        return fileManageService.getFileInputStream(fileName);
+    }
 }

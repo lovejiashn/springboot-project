@@ -40,4 +40,11 @@ public interface MinioFileManageService {
      * @return 返回url集合
      */
     ResultUtil<List<String>> upLoadFileBackUrl(MultipartFile[] files);
+
+    /**
+     * 获取文件流
+     * @param fileName 文件名称
+     * @return 返回保存数据信息
+     */
+    byte[] getFileInputStream(String fileName);
 }
