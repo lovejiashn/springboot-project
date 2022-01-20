@@ -25,10 +25,9 @@ public class MinioConfig {
      */
     @Bean
     public MinioClient minioClient(){
-        MinioClient minioClient = MinioClient.builder()
+        return MinioClient.builder()
                 .endpoint(minioPropertiesConfig.getEndpoint())
                 .credentials(minioPropertiesConfig.getAccessKey(),minioPropertiesConfig.getSecretKey())
                 .build();
-        return minioClient;
     }
 }
