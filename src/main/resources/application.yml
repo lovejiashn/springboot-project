@@ -1,25 +1,42 @@
 server:
-  port: 8010
+  port: 8070
   servlet:
     context-path: /project
 #配置mybatis-plus对应mapper.xml位置
 #配置数据库mysql
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3308/springboot-project?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=UTC
-    username: root
-    password: queena1991
-    driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      max-active: 20
-      active-connections: 6
-      max-wait: 30000
-      initial-size: 20
-      min-idle: 5
-      validation-query: select 1 from dual   #验证数据库心跳的SQL
-      validation-query-timeout: 1
-#设置上传文件大小
+      mysql:
+        username: xmjg_agcloud
+        password: xmjg_agcloud
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://172.18.21.68:3306/xmjg_agcloud_0329?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
+      clickhouse:
+        url: jdbc:clickhouse://172.18.25.88:8123/xmjg_agcloud_0329_68?socket_timeout=30000000
+        username: default
+        password: 123456
+        driverName: ru.yandex.clickhouse.ClickHouseDriver
+      initial-size: 15
+      min-idle: 15
+      max-active: 200
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: ""
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: false
+      connection-properties: false
+clickhouse:
+  datasource:
+    url: jdbc:clickhouse://172.18.25.88:8123/xmjg_agcloud_0329_68?socket_timeout=30000000
+    username: default
+    password: 123456
+    driverName: ru.yandex.clickhouse.ClickHouseDriver
+  #设置上传文件大小
   servlet:
     multipart:
       max-file-size: 100MB
@@ -45,3 +62,8 @@ sina_api_url: https://www.mynb8.com/api3/sina.html
 upload-filePath: D:/xmjg/file
 #openoffice安装地址
 openoffice-path: D:/openoffice
+#swagger信息
+agcloud:
+  framework:
+    swagger:
+      enable: true
