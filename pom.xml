@@ -170,6 +170,11 @@
             <artifactId>apply-spring-boot-starter</artifactId>
             <version>1.0</version>
         </dependency>
+        <!--<dependency>
+            <groupId>com.jiashn</groupId>
+            <artifactId>jiashn-spring-boot-starter</artifactId>
+            <version>1.0</version>
+        </dependency>-->
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>

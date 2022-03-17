@@ -3,6 +3,7 @@ package com.jiashn.springbootproject.spi.controller;
 import com.jiashn.springbootproject.changeDB.DataSource;
 import com.jiashn.springbootproject.changeDB.DataSourceType;
 import com.jiashn.springbootproject.spi.mapper.ChinaSelMapper;
+import com.jiashn.springbootproject.spi.service.UseSelService;
 import com.xmjg.common.apply.metrics.service.XmjgMetricsInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class UseSpiController {
 
-    @Autowired
-    private XmjgMetricsInfoService xmjgMetricsInfoService;
+
 
     @Autowired
-    private ChinaSelMapper chinaSelMapper;
+    private UseSelService useSelService;
 
     @GetMapping("/getTotalProjectNum.do")
     @DataSource(value = DataSourceType.CLICKHOUSE)
@@ -33,9 +33,8 @@ public class UseSpiController {
             Integer totalProjectNum = xmjgMetricsInfoService.getTotalProjectNum("2021-01-01", "2022-01-01", "");
             System.out.println("总项目数：" + totalProjectNum);
         }*/
-        Integer totalProjectNum = xmjgMetricsInfoService.getTotalProjectNum("2021-01-01", "2022-01-01", "");
-        Integer piecesNum = xmjgMetricsInfoService.getTotalPiecesNum("2021-01-01", "2022-01-01", "");
-        System.out.println("总项目数：" + totalProjectNum+",总办件数："+piecesNum);
+        Integer totalProjectNum = useSelService.getTotalProjectNum("2021-01-01", "2022-01-01", "");
+        System.out.println("总项目数：" + totalProjectNum+",总办件数：0");
        /* Wrapper<ChinaEntity> chinaEntityWrapper = Wrappers.<ChinaEntity>lambdaQuery()
                 .eq(ChinaEntity::getCode,110000);
         ChinaEntity chinaEntity = chinaSelMapper.selectOne(chinaEntityWrapper);
