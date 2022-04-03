@@ -3,7 +3,6 @@ package com.jiashn.springbootproject.spi.service.impl;
 import com.jiashn.springbootproject.changeDB.DataSource;
 import com.jiashn.springbootproject.changeDB.DataSourceType;
 import com.jiashn.springbootproject.spi.service.UseSelService;
-import com.xmjg.common.apply.metrics.service.XmjgMetricsInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +14,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UseSelServiceImpl implements UseSelService {
 
-    @Autowired
-    private XmjgMetricsInfoService xmjgMetricsInfoService;
+
 
     @Override
     @DataSource(value = DataSourceType.MYSQL)
     public Integer getTotalProjectNum(String startDate, String endDate, String regionCode) {
-        return xmjgMetricsInfoService.getTotalProjectNum(startDate,endDate,regionCode);
+        return 1;
     }
 }

@@ -31,6 +31,8 @@
         <dynamic.version>3.3.6</dynamic.version>
         <clickhouse.version>0.3.1</clickhouse.version>
         <swagger.version>2.9.2</swagger.version>
+        <hutool.version>5.7.22</hutool.version>
+        <poi.version>4.1.0</poi.version>
     </properties>
     <dependencies>
         <!--引入redis包-->
@@ -165,16 +167,48 @@
             <version>${swagger.version}</version>
         </dependency>
         <!-- 引入apply jar包自写 -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.xmjg.mestrics</groupId>
             <artifactId>apply-spring-boot-starter</artifactId>
             <version>1.0</version>
-        </dependency>
-        <!--<dependency>
-            <groupId>com.jiashn</groupId>
-            <artifactId>jiashn-spring-boot-starter</artifactId>
-            <version>1.0</version>
         </dependency>-->
+        <!--引入hutool包-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <!-- poi处理xlsx格式,用于处理word中的表格 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-excelant</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+        <!-- poi-tl基于poi的word模板引擎 -->
+        <dependency>
+            <groupId>com.deepoove</groupId>
+            <artifactId>poi-tl</artifactId>
+            <version>1.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+        </dependency>
+
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>

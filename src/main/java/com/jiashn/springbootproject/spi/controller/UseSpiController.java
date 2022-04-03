@@ -2,9 +2,7 @@ package com.jiashn.springbootproject.spi.controller;
 
 import com.jiashn.springbootproject.changeDB.DataSource;
 import com.jiashn.springbootproject.changeDB.DataSourceType;
-import com.jiashn.springbootproject.spi.mapper.ChinaSelMapper;
 import com.jiashn.springbootproject.spi.service.UseSelService;
-import com.xmjg.common.apply.metrics.service.XmjgMetricsInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
