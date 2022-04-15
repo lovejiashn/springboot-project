@@ -9,10 +9,10 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       mysql:
-        username: xmjg_agcloud
-        password: xmjg_agcloud
+        username: root
+        password: 123456
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://172.18.21.68:3306/xmjg_agcloud_0329?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
+        url: jdbc:mysql://192.168.23.100:3306/springbootProject?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
       clickhouse:
         url: jdbc:clickhouse://172.18.25.88:8123/xmjg_agcloud_0329_68?socket_timeout=30000000
         username: default
@@ -45,6 +45,9 @@ mybatis-plus:
   mapper-locations: classpath*:/mapper/com/**/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      table-prefix: t_
 #minio配置
 minio:
   endpoint: http://192.168.2.68:9006
