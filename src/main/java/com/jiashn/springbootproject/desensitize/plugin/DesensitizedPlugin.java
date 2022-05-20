@@ -30,24 +30,37 @@ public class DesensitizedPlugin implements Interceptor {
     public Object intercept(Invocation invocation) throws Throwable {
        List<Object> records =  (List<Object>) invocation.proceed();
         records.forEach(this::desensitized);
-        return null;
+        return records;
     }
 
     private void desensitized(Object obj){
         Class<?> aClass = obj.getClass();
+        //mybatis中方法，主要是获取对象中对用名称、数据。
         MetaObject metaObject = SystemMetaObject.forObject(obj);
+        // aClass.getDeclaredFields()获取当前对象的字段
         Arrays.stream(aClass.getDeclaredFields())
+                //过滤是否存在有注解Sensitive的数据
                 .filter(field -> field.isAnnotationPresent(Sensitive.class))
                 .forEach(field -> doDesensitize(metaObject,field));
     }
 
     private void doDesensitize(MetaObject metaObject, Field field){
+        //获取字段名称
         String name = field.getName();
+        //获取对应的值
         Object value = metaObject.getValue(name);
         if (String.class == metaObject.getGetterType(name) && Objects.nonNull(value)){
+            //获取注解
             Sensitive sensitive = field.getAnnotation(Sensitive.class);
+            //获取注解的值
             DesensitizedStrategy strategy = sensitive.strategy();
-            String apply = strategy.getDesensitizer().apply(String.valueOf(value));
+
+            /* *
+             *  strategy.getDesensitize()返回接口Desensitized，该接口继承Function<String,String>。
+             *   Function中 R apply(T t)即传入类型T，返回类型R
+             *   Function是定义的一个操作的lambda表达式，定义计算规则，用于运算自己想要的结果，例如字段的替换
+             */
+            String apply = strategy.getDesensitize().apply(String.valueOf(value));
             metaObject.setValue(name,apply);
         }
     }

@@ -29,7 +29,7 @@ public enum DesensitizedStrategy {
         this.desensitized = desensitized;
     }
 
-    public Desensitized getDesensitizer() {
+    public Desensitized getDesensitize() {
         return desensitized;
     }
 }

@@ -36,17 +36,19 @@ public class UserInfo implements Serializable{
     /**
      * 昵称
      */
+    @Sensitive(strategy = DesensitizedStrategy.USER_NAME)
     private String nickName;
 
     /**
      * 手机号
      */
-
+    @Sensitive(strategy = DesensitizedStrategy.PHONE)
     private String phone;
 
     /**
      * 身份证号
      */
+    @Sensitive(strategy = DesensitizedStrategy.ID_CARD)
     private String idCard;
 
     /**
