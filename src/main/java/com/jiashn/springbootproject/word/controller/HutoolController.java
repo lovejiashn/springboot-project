@@ -4,6 +4,7 @@ import com.jiashn.springbootproject.word.service.HutoolService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -27,5 +28,11 @@ public class HutoolController {
     @GetMapping("/downLoadWord.do")
     public void downLoadWord(HttpServletResponse response){
         hutoolService.downLoadWord(response);
+    }
+    @GetMapping("/showElectronlicense.do")
+    public ModelAndView showElectronlicense(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/electronlicense");
+        return modelAndView;
     }
 }
