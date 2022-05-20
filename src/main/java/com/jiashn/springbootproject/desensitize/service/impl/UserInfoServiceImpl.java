@@ -26,13 +26,11 @@ public class UserInfoServiceImpl implements UserInfoService {
     private UserInfoMapper userInfoMapper;
 
     @Override
-    public ResultUtil<List<UserInfo>> getUserInfoPage(int pageNo, int pageSize) {
-        //Page<UserInfo> page = new Page<>(pageNo,pageSize);
-        //IPage<UserInfo> iPage = userInfoMapper.selectPage(page, null);
+    public ResultUtil<IPage<UserInfo>> getUserInfoPage(int pageNo, int pageSize) {
+        IPage<UserInfo> page = new Page<>(pageNo,pageSize);
         QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc("create_time");
-        List<UserInfo> userInfoList = userInfoMapper.selectList(wrapper);
-        //page.setRecords(userInfoList).setSize(1).setTotal(3);
-        return ResultUtil.success(userInfoList);
+        page = userInfoMapper.selectPage(page, wrapper);
+        return ResultUtil.success(page);
     }
 }

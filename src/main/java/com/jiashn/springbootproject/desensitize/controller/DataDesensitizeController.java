@@ -26,7 +26,7 @@ public class DataDesensitizeController {
     private UserInfoService userInfoService;
 
     @GetMapping("/getUserInfoPage.do")
-    public ResultUtil<List<UserInfo>> getUserInfoPage(@RequestParam(value = "pageNo",defaultValue = "0") Integer pageNo,
+    public ResultUtil<IPage<UserInfo>> getUserInfoPage(@RequestParam(value = "pageNo",defaultValue = "0") Integer pageNo,
                                                       @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize){
 
         return userInfoService.getUserInfoPage(pageNo, pageSize);

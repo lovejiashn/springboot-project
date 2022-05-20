@@ -20,5 +20,5 @@ public interface UserInfoService {
      * @param pageSize 页大小
      * @return 返回值
      */
-    ResultUtil<List<UserInfo>> getUserInfoPage(int pageNo, int pageSize);
+    ResultUtil<IPage<UserInfo>> getUserInfoPage(int pageNo, int pageSize);
 }

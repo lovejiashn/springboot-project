@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jiashn.springbootproject.desensitize.aop.Sensitive;
 import com.jiashn.springbootproject.desensitize.enums.DesensitizedStrategy;
 import lombok.Data;
@@ -54,6 +55,7 @@ public class UserInfo implements Serializable{
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss",timezone = "GTM+8")
     private LocalDateTime createTime;
 
     private static final long serialVersionUID = 1L;
