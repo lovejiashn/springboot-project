@@ -20,25 +20,26 @@ public class ResultUtil<T> {
     private String msg;
     private T data;
 
-    public static ResultUtil<?> success(String msg){
-        return ResultUtil.builder()
+    public static <T> ResultUtil<T> success(String msg){
+        return ResultUtil.<T>builder()
                 .code(1000)
                 .msg(msg)
+                .data(null)
                 .build();
     }
 
-    public static ResultUtil<?> success(){
-        return ResultUtil.builder().code(1000).msg("成功").build();
+    public static <T> ResultUtil<T> success(){
+        return ResultUtil.<T>builder().code(1000).msg("成功").build();
     }
     public static <T> ResultUtil<T> success(T data){
         return ResultUtil.<T>builder().code(1000).msg("成功").data(data).build();
     }
 
-    public static ResultUtil<?> error(String msg){
-        return ResultUtil.builder().code(5000).msg(msg).build();
+    public static <T> ResultUtil<T> error(String msg){
+        return ResultUtil.<T>builder().code(5000).msg(msg).data(null).build();
     }
 
-    public static ResultUtil<?> error(int code,String msg){
-        return ResultUtil.builder().code(code).msg(msg).build();
+    public static <T> ResultUtil<T> error(int code,String msg){
+        return ResultUtil.<T>builder().code(code).msg(msg).build();
     }
 }

@@ -33,6 +33,7 @@
         <swagger.version>2.9.2</swagger.version>
         <hutool.version>5.7.22</hutool.version>
         <poi.version>4.1.0</poi.version>
+        <geoip2.version>2.8.1</geoip2.version>
     </properties>
     <dependencies>
         <!--引入redis包-->
@@ -224,6 +225,12 @@
             <groupId>org.xhtmlrenderer</groupId>
             <artifactId>flying-saucer-pdf</artifactId>
             <version>9.0.9</version>
+        </dependency>
+        <!--引入geoip2实现ip转国家、省、市-->
+        <dependency>
+            <groupId>com.maxmind.geoip2</groupId>
+            <artifactId>geoip2</artifactId>
+            <version>${geoip2.version}</version>
         </dependency>
     </dependencies>
 
