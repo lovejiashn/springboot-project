@@ -1,6 +1,5 @@
-package com.jiashn.springbootproject.collections;
+package com.jiashn.springbootproject.useUtil;
 
-import com.jiashn.springbootproject.desensitize.domain.UserInfo;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.util.*;
