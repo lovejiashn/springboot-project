@@ -35,6 +35,7 @@ public class Ip138ChangeServiceImpl implements Ip138ChangeService {
                         String[] va = StringUtils.split(variable, "=");
                         String value = va[1].trim().substring(0,va[1].trim().length() - 1);
                         JSONObject object = JSONObject.parseObject(value);
+                        log.info(String.format("获取到的数据值:%s",value));
                         JSONObject resJson = new JSONObject();
                         resJson.put("address", object.getString("ASN归属地"));
                         return ResultUtil.success(resJson);
