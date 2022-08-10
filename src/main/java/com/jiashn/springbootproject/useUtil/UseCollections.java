@@ -3,6 +3,7 @@ package com.jiashn.springbootproject.useUtil;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author: jiangjs
@@ -13,6 +14,13 @@ public class UseCollections {
 
     public static void main(String[] args) {
         List<Integer> params = Arrays.asList(1, 3, 5, 7, 8, 9, 2, 10);
+        List<Map<String, String>> res = new ArrayList<>();
+        Map<String, String> resMap = new HashMap<>();
+        Map<String, String> resMap2 = new HashMap<>();
+        resMap.put("answer","2121");
+        resMap2.put("answer","4444");
+        res.add(resMap2);
+        res.add(resMap);
         //升序
         Collections.sort(params);
         System.out.println("升序："+ params);
@@ -94,5 +102,9 @@ public class UseCollections {
         boolean equalCollection = CollectionUtils.isEqualCollection(ones, twos);
         boolean isEqual = CollectionUtils.isEqualCollection(ones, threes);
         System.out.println("集合是否相等:"+equalCollection+";相等否："+isEqual);
+
+
+        System.out.println("统计结果:"+ res.stream().map(map -> map.get("answer")).collect(Collectors.joining(";")));
+
     }
 }
