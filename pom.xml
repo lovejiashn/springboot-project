@@ -36,6 +36,7 @@
         <geoip2.version>2.8.1</geoip2.version>
         <validator.version>6.2.3.Final</validator.version>
         <ip2region.version>2.6.5</ip2region.version>
+        <jsoup.version>1.15.2</jsoup.version>
     </properties>
     <dependencies>
         <!--引入redis包-->
@@ -240,11 +241,17 @@
             <artifactId>hibernate-validator</artifactId>
             <version>${validator.version}</version>
         </dependency>
-
+        <!--ip2region-ip转换成地址-->
         <dependency>
             <groupId>org.lionsoul</groupId>
             <artifactId>ip2region</artifactId>
             <version>${ip2region.version}</version>
+        </dependency>
+        <!--解析html文件-->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
         </dependency>
     </dependencies>
 
