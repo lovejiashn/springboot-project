@@ -1,6 +1,7 @@
 package com.jiashn.springbootproject.config;
 
 import io.minio.MinioClient;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,5 +30,16 @@ public class MinioConfig {
                 .endpoint(minioPropertiesConfig.getEndpoint())
                 .credentials(minioPropertiesConfig.getAccessKey(),minioPropertiesConfig.getSecretKey())
                 .build();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(PearlMinioClient.class)
+    public PearlMinioClient pearlMinioClient(){
+        MinioClient minioClient = MinioClient.builder()
+                .endpoint(minioPropertiesConfig.getEndpoint())
+                .credentials(minioPropertiesConfig.getAccessKey(), minioPropertiesConfig.getSecretKey())
+                .build();
+        return new PearlMinioClient(minioClient);
+
     }
 }

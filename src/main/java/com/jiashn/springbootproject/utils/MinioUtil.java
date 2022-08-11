@@ -1,7 +1,12 @@
 package com.jiashn.springbootproject.utils;
 
+import com.google.common.collect.Multimap;
+import com.jiashn.springbootproject.config.PearlMinioClient;
 import io.minio.*;
+import io.minio.errors.*;
 import io.minio.http.Method;
+import io.minio.messages.Part;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: jiangjs
@@ -24,6 +32,8 @@ public class MinioUtil {
 
     @Autowired
     private MinioClient minioClient;
+    @Autowired
+    private PearlMinioClient pearlMinioClient;
 
 
     /**
@@ -43,7 +53,7 @@ public class MinioUtil {
     }
 
     /**
-     * 根据MultipartFile文件上传文件，返回文件名称
+     * 根据MultipartFile文件上传文件，返回文件名称及对应MD5编码
      * @param files 上传的文件
      * @param bucketName 桶名称
      * @return 返回名称
@@ -84,6 +94,36 @@ public class MinioUtil {
             }
         }
         return backNames;
+    }
+
+    /**
+     * 根据输入流进行文件上传
+     * @param inputStream 文件输入流
+     * @param bucketName 桶名称
+     * @param originalFileName 文件名称
+     * @return 返回文件名称及MD5编码
+     */
+    public Map<String,String> uploadFileByInputStream(InputStream inputStream,String bucketName,String originalFileName){
+        //验证当前桶是否存在
+        existBucket(bucketName);
+        Map<String, String> fileMap = new HashMap<>(2);
+        fileMap.put("fileName",originalFileName);
+        fileMap.put("fileRecode","");
+        try {
+            String fileRecode = Md5Util.md5Encode(inputStream);
+            minioClient.putObject(PutObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(originalFileName)
+                    .stream(inputStream,inputStream.available(),-1)
+                    .build()
+            );
+            fileMap.put("fileRecode",fileRecode);
+            return fileMap;
+        }catch (Exception e){
+            log.error("{}:文件流上传文件失败：{}",originalFileName,e.getMessage());
+            e.printStackTrace();
+            return fileMap;
+        }
     }
 
     /**
@@ -160,5 +200,74 @@ public class MinioUtil {
             e.printStackTrace();
             return Boolean.FALSE;
         }
+    }
+
+    /**
+     * 上传分片上传请求，并为每个分片分配uploadId
+     * @param bucketName 桶
+     * @param region 区域
+     * @param objectName 对象名
+     * @param headers 消息头
+     * @param extraQueryParams 额外参数
+     * @return 返回结果
+     */
+    public CreateMultipartUploadResponse getUploadId(String bucketName, String region, String objectName, Multimap<String, String> headers, Multimap<String, String> extraQueryParams){
+        try {
+            return pearlMinioClient.createMultipartUpload(bucketName, region, objectName, headers, extraQueryParams);
+        } catch (Exception e) {
+            log.error("获取每个分片对应的");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 获取文件的预签名地址
+     * @param bucketName 桶名
+     * @param filePath 文件路径
+     * @param paraMap 额外提交参数
+     * @return 返回执行结果
+     */
+    @SneakyThrows
+    public String getPresignedObjectUrl(String bucketName, String filePath, Map<String, String> paraMap){
+        return pearlMinioClient.getPresignedObjectUrl(
+                GetPresignedObjectUrlArgs.builder()
+                        .method(Method.GET)
+                        .bucket(bucketName)
+                        .object(filePath)
+                        .expiry(1, TimeUnit.DAYS)
+                        .extraQueryParams(paraMap)
+                        .build());
+    }
+
+    /**
+     * 查询分片数据
+     * @param bucketName       存储桶
+     * @param region           区域
+     * @param objectName       对象名
+     * @param uploadId         上传ID
+     * @param extraHeaders     额外消息头
+     * @param extraQueryParams 额外查询参数
+     * @return 返回结果
+     */
+    public ListPartsResponse listMultiParts(String bucketName, String region, String objectName, Integer maxParts, Integer partNumberMarker, String uploadId, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) throws NoSuchAlgorithmException, InsufficientDataException, IOException, InvalidKeyException, ServerException, XmlParserException, ErrorResponseException, InternalException, InvalidResponseException {
+        return pearlMinioClient.listMultiParts(bucketName, region, objectName, maxParts, partNumberMarker, uploadId, extraHeaders, extraQueryParams);
+    }
+
+    /**
+     * 完成分片上传，执行合并文件
+     * @param bucketName 桶名称
+     * @param region 区域
+     * @param objectName 对象名
+     * @param uploadId 上传Id
+     * @param parts 分片
+     * @param extraHeaders 额外消息头
+     * @param extraQueryParams 额外请求参数
+     * @return 返回值
+     */
+    public ObjectWriteResponse completeMultipartUpload(String bucketName, String region, String objectName, String uploadId,
+                                                       Part[] parts, Multimap<String, String> extraHeaders,
+                                                       Multimap<String, String> extraQueryParams) throws NoSuchAlgorithmException, InsufficientDataException, IOException, InvalidKeyException, ServerException, XmlParserException, ErrorResponseException, InternalException, InvalidResponseException {
+        return pearlMinioClient.completeMultipartUpload(bucketName, region, objectName, uploadId, parts, extraHeaders, extraQueryParams);
     }
 }
