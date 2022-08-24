@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Author: jiangjs
  * @Description:
@@ -15,7 +17,7 @@ import lombok.experimental.Accessors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResultUtil<T> {
+public class ResultUtil<T> implements Serializable {
     private int code;
     private String msg;
     private T data;

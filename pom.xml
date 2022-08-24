@@ -37,6 +37,7 @@
         <validator.version>6.2.3.Final</validator.version>
         <ip2region.version>2.6.5</ip2region.version>
         <jsoup.version>1.15.2</jsoup.version>
+        <tools.version>1.8</tools.version>
     </properties>
     <dependencies>
         <!--引入redis包-->
@@ -252,6 +253,14 @@
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun</groupId>
+            <artifactId>tools</artifactId>
+            <version>${tools.version}</version>
+            <scope>system</scope>
+            <systemPath>${java.home}/../lib/tools.jar</systemPath>
         </dependency>
     </dependencies>
 

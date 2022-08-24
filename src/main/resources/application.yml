@@ -9,12 +9,12 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       mysql:
-        username: root
-        password: 123456
+        username: xmjg_agcloud
+        password: xmjg_agcloud
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://192.168.23.100:3306/springbootProject?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
+        url: jdbc:mysql://172.18.21.54:3309/xmjg_agcloud_620000?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
       clickhouse:
-        url: jdbc:clickhouse://172.18.25.88:8123/xmjg_agcloud_0329_68?socket_timeout=30000000
+        url: jdbc:clickhouse://172.18.21.54:8124/xmjg_agcloud_620000?socket_timeout=30000000
         username: default
         password: 123456
         driverName: ru.yandex.clickhouse.ClickHouseDriver
@@ -30,6 +30,9 @@ spring:
       test-on-return: false
       pool-prepared-statements: false
       connection-properties: false
+    dynamic:
+      primary: mysql
+      strict: false
 clickhouse:
   datasource:
     url: jdbc:clickhouse://172.18.25.88:8123/xmjg_agcloud_0329_68?socket_timeout=30000000

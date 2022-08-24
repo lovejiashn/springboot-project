@@ -18,7 +18,7 @@ import javax.servlet.ServletContext;
  **/
 @Component
 public class ServiceContextListener implements ApplicationListener<ContextRefreshedEvent> {
-    @Cacheable(value = "getUsers")
+    @Cacheable(value = "getUsers",unless = "#result == null")
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         ApplicationContext context = event.getApplicationContext();
