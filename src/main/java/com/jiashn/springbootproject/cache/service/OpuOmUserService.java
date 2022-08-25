@@ -28,4 +28,10 @@ public interface OpuOmUserService {
      * @return 查询结果
      */
     ResultUtil<OpuOmUser> deleteUserInfoByUserId(String userId);
+
+    /**
+     * 使用mybatis 中 Batch Insert 批量插入数据
+     * @return 返回执行结果
+     */
+    ResultUtil<?> insertUserInfoBatch();
 }

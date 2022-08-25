@@ -36,4 +36,9 @@ public class OpuOmUserController {
     public ResultUtil<OpuOmUser> deleteUserInfoByUserId(@PathVariable("userId") String userId){
         return opuOmUserService.deleteUserInfoByUserId(userId);
     }
+
+    @GetMapping("/insertUserInfoBatch.do")
+    public ResultUtil<?> insertUserInfoBatch(){
+        return opuOmUserService.insertUserInfoBatch();
+    }
 }
