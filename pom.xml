@@ -38,6 +38,7 @@
         <ip2region.version>2.6.5</ip2region.version>
         <jsoup.version>1.15.2</jsoup.version>
         <tools.version>1.8</tools.version>
+        <zxingCode.version>3.4.0</zxingCode.version>
     </properties>
     <dependencies>
         <!--引入redis包-->
@@ -254,13 +255,24 @@
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
         </dependency>
-
+        <!--实现lombok中的get,set方法-->
         <dependency>
             <groupId>com.sun</groupId>
             <artifactId>tools</artifactId>
             <version>${tools.version}</version>
             <scope>system</scope>
             <systemPath>${java.home}/../lib/tools.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>${zxingCode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>${zxingCode.version}</version>
         </dependency>
     </dependencies>
 

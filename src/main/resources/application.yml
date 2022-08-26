@@ -66,6 +66,9 @@ sina_short_url_key: d3587cfeb3797cd57c2476bf0bb2ef3d
 sina_api_url: https://www.mynb8.com/api3/sina.html
 #上传文件夹信息
 upload-filePath: D:/xmjg/file
+
+#上传二维码文件地址
+qr_image_path: D:/xmjg/file/qr/
 #openoffice安装地址
 openoffice-path: D:/openoffice
 #swagger信息
