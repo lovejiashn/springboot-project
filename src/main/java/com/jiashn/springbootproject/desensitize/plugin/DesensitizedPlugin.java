@@ -18,7 +18,7 @@ import java.util.Objects;
 
 /**
  * @author: jiangjs
- * @description:
+ * @description: 设置脱敏方法
  * @date: 2022/4/15 16:32
  **/
 @Intercepts(@Signature(type= ResultSetHandler.class,
