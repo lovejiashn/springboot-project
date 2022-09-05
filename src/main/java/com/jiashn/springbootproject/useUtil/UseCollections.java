@@ -106,5 +106,20 @@ public class UseCollections {
 
         System.out.println("统计结果:"+ res.stream().map(map -> map.get("answer")).collect(Collectors.joining(";")));
 
+        //使用for循环删除数据
+        List<Integer> ints = new ArrayList<>();
+        ints.add(1);
+        ints.add(2);
+        ints.add(3);
+        ints.add(4);
+        ints.add(1);
+        int size = ints.size();
+        List<Integer> subInts = ints.subList(2,size);
+        System.out.println("截取子集合:"+subInts.toString());
+
+        ints.removeIf(next -> 1 == next);
+        System.out.println("删除数据成功！"+ints.toString());
+
+
     }
 }
