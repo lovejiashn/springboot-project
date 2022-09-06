@@ -34,7 +34,36 @@ public class QrCodeServiceImpl implements QrCodeService {
     public void createUnImageQrCode(HttpServletResponse response) {
         QrImage qrImage = new QrImage();
         qrImage.setContent("这是测试的二维码内容");
-        InputStream inputStream = qrCodeUtil.createQrCode(qrImage, "png");
+        InputStream inputStream = qrCodeUtil.createQrCode(qrImage, "png",false);
+        ServletOutputStream sops = null;
+        if (Objects.nonNull(inputStream)){
+            try {
+                String imageName = "二维码.png";
+                response.setHeader("Content-Type","application/octet-stream");
+                response.setHeader("Content-Disposition","attachment;filename="+new String(imageName.getBytes(), StandardCharsets.ISO_8859_1));
+                sops = response.getOutputStream();
+                sops.write(IOUtils.toByteArray(inputStream));
+                sops.flush();
+            }catch (Exception e){
+                log.error("生成二维码报错："+ e.getMessage());
+                e.printStackTrace();
+            }finally {
+                try {
+                    if (Objects.nonNull(sops)){
+                        sops.close();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void createLogoQrCode(HttpServletResponse response) {
+        QrImage qrImage = new QrImage();
+        qrImage.setContent("带logo的二维码").setLogoPath("d:\\图片\\标配.jpg");
+        InputStream inputStream = qrCodeUtil.createQrCodeImage(qrImage, "png",true);
         ServletOutputStream sops = null;
         if (Objects.nonNull(inputStream)){
             try {

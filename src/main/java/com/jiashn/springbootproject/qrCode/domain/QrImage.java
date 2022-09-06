@@ -1,9 +1,7 @@
 package com.jiashn.springbootproject.qrCode.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -13,20 +11,17 @@ import javax.validation.constraints.NotEmpty;
  * @description:
  * @date: 2022/8/26 10:41
  **/
+@EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Accessors(chain = true)
 public class QrImage extends QrMiddleImage {
     /**
      * 二维码宽度
      */
-    @Builder.Default
     private Integer width = 500;
     /**
      * 二维码高度
      */
-    @Builder.Default
     private Integer height = 500;
     /**
      * 二维码的内容
@@ -40,6 +35,5 @@ public class QrImage extends QrMiddleImage {
     /**
      * 二维码文字的大小
      */
-    @Builder.Default
     private Integer wordSize = 12;
 }

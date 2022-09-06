@@ -24,4 +24,9 @@ public class QrCodeController {
     public void createUnImageQrCode(HttpServletResponse response){
         qrCodeService.createUnImageQrCode(response);
     }
+
+    @GetMapping("/createLogoQrCode.do")
+    public void createLogoQrCode(HttpServletResponse response){
+        qrCodeService.createLogoQrCode(response);
+    }
 }

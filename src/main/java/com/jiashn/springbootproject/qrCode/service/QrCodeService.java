@@ -13,4 +13,9 @@ public interface QrCodeService {
      * @param response 响应
      */
     void createUnImageQrCode(HttpServletResponse response);
+    /**
+     * 生成logo的二维码
+     * @param response 响应
+     */
+    void createLogoQrCode(HttpServletResponse response);
 }
