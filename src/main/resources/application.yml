@@ -69,6 +69,11 @@ upload-filePath: D:/xmjg/file
 
 #上传二维码文件地址
 qr_image_path: D:/xmjg/file/qr/
+
+#tess4j语言地址
+tess4j:
+  tessdata:
+    path: D:/xmjg/file/tess
 #openoffice安装地址
 openoffice-path: D:/openoffice
 #swagger信息
