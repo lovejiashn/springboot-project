@@ -16,4 +16,5 @@ public class Jiashn {
 
     private String name;
     private String gender;
+    private Integer age;
 }

@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 public class UseBeanUtils {
 
     public static void main(String[] args) {
-        Jiashn jiashn = new Jiashn("jiashn","男");
+        Jiashn jiashn = new Jiashn("jiashn","男",20);
         Queena queena = new Queena();
         //参数值复制
         BeanUtils.copyProperties(jiashn,queena);
