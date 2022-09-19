@@ -24,7 +24,8 @@ public class OpuOmUserController {
 
     @GetMapping("/getUserInfoByUserId.do/{userId}")
     public ResultUtil<OpuOmUser> getUserInfoByUserId(@PathVariable("userId") String userId){
-        return opuOmUserService.getUserInfoByUserId(userId);
+        OpuOmUser opuOmUser = opuOmUserService.getById(userId);
+        return ResultUtil.success(opuOmUser);
     }
 
     @GetMapping("/updateUserInfoByUserId.do/{userId}")

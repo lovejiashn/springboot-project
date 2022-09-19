@@ -1,5 +1,6 @@
 package com.jiashn.springbootproject.cache.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiashn.springbootproject.cache.domain.OpuOmUser;
 import com.jiashn.springbootproject.cache.mapper.OpuOmUserMapper;
 import com.jiashn.springbootproject.cache.service.OpuOmUserService;
@@ -23,7 +24,7 @@ import java.util.List;
  * @date: 2022/8/23 14:32
  **/
 @Service
-public class OpuOmUserServiceImpl implements OpuOmUserService {
+public class OpuOmUserServiceImpl extends ServiceImpl<OpuOmUserMapper,OpuOmUser> implements OpuOmUserService {
     @Resource
     private OpuOmUserMapper opuOmUserMapper;
     @Autowired
