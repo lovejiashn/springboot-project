@@ -9,4 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 public interface ApachePoiService {
 
     void downLoadWord(HttpServletResponse response);
+
+    void generatePic();
+
+    void generateGroupChart(HttpServletResponse response);
 }

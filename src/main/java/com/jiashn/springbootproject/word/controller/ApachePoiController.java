@@ -22,4 +22,13 @@ public class ApachePoiController {
     public void downLoadWord(HttpServletResponse response){
         poiService.downLoadWord(response);
     }
+
+    @GetMapping("/generatePic.do")
+    public void generatePic(){
+        poiService.generatePic();
+    }
+    @GetMapping("/generateGroupChart.do")
+    public void generateGroupChart(HttpServletResponse response){
+        poiService.generateGroupChart(response);
+    }
 }
