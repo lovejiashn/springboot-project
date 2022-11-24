@@ -44,6 +44,6 @@ public class ChartSeriesRenderData extends LabelData {
         /**
          * 该系列对应生成的图表类型
          */
-        private SeriesRenderData.ComboType comboType;
+        private SeriesRenderData.ComboType comboType = null;
     }
 }

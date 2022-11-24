@@ -45,8 +45,8 @@ public class ApachePoitlServiceImpl implements ApachePoitlService {
         List<ChartSeriesRenderData.RenderData> lineRenderData = new ArrayList<>();
         ChartSeriesRenderData.RenderData numRenderData = new ChartSeriesRenderData.RenderData();
         ChartSeriesRenderData.RenderData moneyRenderData = new ChartSeriesRenderData.RenderData();
-        numRenderData.setComboType(null).setRenderTitle("项目数量").setData(new Double[] {-11.02,-19.42,-10.61,-11.41,-7.91,-5.44,-5.30,-2.75,-1.24,0.35});
-        moneyRenderData.setComboType(null).setRenderTitle("投资额").setData(new Number[]{-12.66,-19.41,-15.16,-19.72,-17.05,-15.92,-15.10,-13.04,-10.65,-9.15});
+        numRenderData.setRenderTitle("项目数量").setData(new Double[] {-11.02,-19.42,-10.61,-11.41,-7.91,-5.44,-5.30,-2.75,-1.24,0.35});
+        moneyRenderData.setRenderTitle("投资额").setData(new Number[]{-12.66,-19.41,-15.16,-19.72,-17.05,-15.92,-15.10,-13.04,-10.65,-9.15});
         lineRenderData.add(numRenderData);
         lineRenderData.add(moneyRenderData);
         lineData.setTitle("1-10月份全国新开工项目数量、投资额增速")
@@ -58,8 +58,8 @@ public class ApachePoitlServiceImpl implements ApachePoitlService {
         List<ChartSeriesRenderData.RenderData> barRenderData = new ArrayList<>();
         ChartSeriesRenderData.RenderData openRenderData = new ChartSeriesRenderData.RenderData();
         ChartSeriesRenderData.RenderData moneyData = new ChartSeriesRenderData.RenderData();
-        openRenderData.setComboType(null).setRenderTitle("开工数量").setData(new Number[]{40,50,45,12,21,18,21,28,21,18,28,18,20,19,-10,-9,-10,19,39,31,20,19,-10,-9,-10,19,39,31,-10,19,39});
-        moneyData.setComboType(null).setRenderTitle("投资额").setData(new Number[]{20,-22,-12,8,-10,-14,-10,-10,-8,-2,-8,-1,-9,-21,-9,-7,-21,-10,21,-29,-50,-21,-9,-7,-21,-10,21,-29,-21,-10,21});
+        openRenderData.setRenderTitle("开工数量").setData(new Number[]{40,50,45,12,21,18,21,28,21,18,28,18,20,19,-10,-9,-10,19,39,31,20,19,-10,-9,-10,19,39,31,-10,19,39});
+        moneyData.setRenderTitle("投资额").setData(new Number[]{20,-22,-12,8,-10,-14,-10,-10,-8,-2,-8,-1,-9,-21,-9,-7,-21,-10,21,-29,-50,-21,-9,-7,-21,-10,21,-29,-21,-10,21});
         barRenderData.add(openRenderData);
         barRenderData.add(moneyData);
         barData.setTitle("各省（自治区）直辖市新开项目数量、投资额同比情况")
@@ -72,8 +72,8 @@ public class ApachePoitlServiceImpl implements ApachePoitlService {
         List<ChartSeriesRenderData.RenderData> lateralRenderData = new ArrayList<>();
         ChartSeriesRenderData.RenderData lateralYearData = new ChartSeriesRenderData.RenderData();
         ChartSeriesRenderData.RenderData lateralMoneyData = new ChartSeriesRenderData.RenderData();
-        lateralYearData.setComboType(null).setRenderTitle("2021年").setData(new Number[]{400,200});
-        lateralMoneyData.setComboType(null).setRenderTitle("2022年").setData(new Number[]{456,255});
+        lateralYearData.setRenderTitle("2021年").setData(new Number[]{400,200});
+        lateralMoneyData.setRenderTitle("2022年").setData(new Number[]{456,255});
         lateralRenderData.add(lateralYearData);
         lateralRenderData.add(lateralMoneyData);
         lateralData.setTitle("工程建设项目建设周期同比情况")
