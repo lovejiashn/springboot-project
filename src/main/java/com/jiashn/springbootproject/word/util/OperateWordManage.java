@@ -22,7 +22,7 @@ public class OperateWordManage {
         FileOutputStream fos = null;
         XWPFTemplate template = null;
         try {
-            template = XWPFTemplate.compile(tempFilePath).render(new HashMap<String,Object>(){{
+            template = XWPFTemplate.compile(tempFilePath).render(new HashMap<String,Object>(contents.size()){{
                 contents.forEach(content ->{
                     GenerateWord backData = GenerateWordFactory.getBackData(content.getTypeEnum());
                     put(content.getLabelName(),backData.generateWord(content));
