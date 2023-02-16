@@ -37,6 +37,9 @@ spring:
     multipart:
       max-request-size: 1GB
       max-file-size: 1GB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/shanghai
 clickhouse:
   datasource:
     url: jdbc:clickhouse://172.18.25.88:8123/xmjg_agcloud_0329_68?socket_timeout=30000000
@@ -81,3 +84,4 @@ agcloud:
   framework:
     swagger:
       enable: true
+#设置统一返回时间格式
