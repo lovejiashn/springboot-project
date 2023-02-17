@@ -1,6 +1,8 @@
 package com.jiashn.springbootproject.useUtil;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.ListUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,6 +23,10 @@ public class UseCollections {
         resMap2.put("answer","4444");
         res.add(resMap2);
         res.add(resMap);
+        //分list集合
+        List<List<Integer>> partition = Lists.partition(params, 2);
+        System.out.println("分割后集合："+ partition);
+
         //升序
         Collections.sort(params);
         System.out.println("升序："+ params);

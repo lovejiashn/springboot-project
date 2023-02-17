@@ -48,6 +48,7 @@ public class SchedulingTaskManage {
      * @param cron 定时任务cron
      */
     public void createSchedulingTask(String key, SchedulingTaskRunnable runnable, String cron){
+        this.stopSchedulingTask(key);
         ScheduledFuture<?> schedule = taskScheduler.schedule(runnable, new CronTrigger(cron));
         assert schedule != null;
         SchedulingTaskConfig.cache.put(key,schedule);
