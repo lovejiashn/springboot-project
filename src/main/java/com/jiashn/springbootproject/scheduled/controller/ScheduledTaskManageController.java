@@ -1,9 +1,9 @@
 package com.jiashn.springbootproject.scheduled.controller;
 
+import com.jiashn.springbootproject.scheduled.service.ScheduledTaskManageService;
 import com.jiashn.springbootproject.utils.ResultUtil;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author: jiangjs
@@ -14,8 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/scheduled")
 public class ScheduledTaskManageController {
 
+    @Autowired
+    private ScheduledTaskManageService manageService;
+
     @GetMapping("/addTask.do")
     public ResultUtil<?> addTask(){
-        return ResultUtil.success();
+        return manageService.addTask();
+    }
+
+    @GetMapping("/deleteTask.do")
+    public ResultUtil<?> deleteTask(){
+        return manageService.deleteTask();
     }
 }
