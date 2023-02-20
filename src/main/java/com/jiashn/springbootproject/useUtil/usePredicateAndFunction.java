@@ -8,14 +8,21 @@ import java.util.function.Predicate;
 
 /**
  * @author: jiangjs
- * @description:
+ * @description: 使用Predicate和Function
  * @date: 2023/2/17 16:06
  **/
 public class usePredicateAndFunction {
 
     public static void main(String[] args) {
-        int len = strLength(String::length,"word");
+        int len = strApply(String::length,"word");
         System.out.println("字符串长度："+len);
+        Integer compose = moreCompose(5, i -> i + 1, i -> i * 5);
+        System.out.println("compose:先计算输入逻辑，再计算当前逻辑："+compose);
+
+        Integer andThen = moreAndThen(5, i -> i + 1, i -> i * 5);
+        System.out.println("andThen:先计算当前逻辑，再计算传入逻辑："+andThen);
+
+
         boolean conform = conformLength(s -> s.length() > 5, "helloWord");
         System.out.println("字符串长度是否符合："+conform);
         boolean contain = moreContain("helloWord", s -> s.contains("h"),
@@ -32,8 +39,34 @@ public class usePredicateAndFunction {
     /**
      * 字段长度
      */
-    public static Integer strLength(Function<String,Integer> func,String word){
+    public static Integer strApply(Function<String,Integer> func,String word){
         return func.apply(word);
+    }
+
+    @SafeVarargs
+    public static Integer moreCompose(Integer initVal, Function<Integer, Integer>... func){
+        Function<Integer, Integer> fir = null;
+        AtomicInteger ai = new AtomicInteger(0);
+        for (Function<Integer, Integer> function : func) {
+            int val = ai.intValue();
+            fir = val ==0 ? function : fir.compose(function);
+            ai.incrementAndGet();
+        }
+        assert fir != null;
+        return fir.apply(initVal);
+    }
+
+    @SafeVarargs
+    public static Integer moreAndThen(Integer initVal, Function<Integer, Integer>... func){
+        Function<Integer, Integer> fir = null;
+        AtomicInteger ai = new AtomicInteger(0);
+        for (Function<Integer, Integer> function : func) {
+            int val = ai.intValue();
+            fir = val ==0 ? function : fir.andThen(function);
+            ai.incrementAndGet();
+        }
+        assert fir != null;
+        return fir.apply(initVal);
     }
 
     /**
@@ -52,10 +85,7 @@ public class usePredicateAndFunction {
         AtomicInteger ai = new AtomicInteger(0);
         for (Predicate<String> predicate : predicates) {
             int val = ai.intValue();
-            if (val == 0){
-                more =  predicate;
-            }
-            more = more.and(predicate);
+            more = val == 0 ? predicate : more.and(predicate);
             ai.incrementAndGet();
         }
         assert more != null;
@@ -70,10 +100,7 @@ public class usePredicateAndFunction {
         AtomicInteger ai = new AtomicInteger(0);
         for (Predicate<String> predicate : predicates) {
             int val = ai.intValue();
-            if (val == 0){
-                single =  predicate;
-            }
-            single = single.or(predicate);
+            single = val == 0 ? predicate : single.or(predicate);
             ai.incrementAndGet();
         }
         assert single != null;
