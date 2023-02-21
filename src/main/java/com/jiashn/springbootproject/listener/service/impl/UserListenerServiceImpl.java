@@ -4,7 +4,9 @@ import com.jiashn.springbootproject.listener.domain.AdminUser;
 import com.jiashn.springbootproject.listener.domain.SelfDefineEvent;
 import com.jiashn.springbootproject.listener.service.UserListenerService;
 import com.jiashn.springbootproject.utils.ResultUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 public class UserListenerServiceImpl implements UserListenerService {
     @Resource
     private ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     @Override
     public ResultUtil<?> addUser() {
@@ -37,7 +41,7 @@ public class UserListenerServiceImpl implements UserListenerService {
     public ResultUtil<?> selfDefineUser() {
         AdminUser adminUser = new AdminUser("queena","11111111");
         SelfDefineEvent defineEvent = new SelfDefineEvent(this, adminUser);
-        applicationContext.publishEvent(defineEvent);
+        eventPublisher.publishEvent(defineEvent);
         return ResultUtil.success();
     }
 }
