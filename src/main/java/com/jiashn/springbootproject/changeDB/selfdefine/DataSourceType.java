@@ -1,4 +1,4 @@
-package com.jiashn.springbootproject.changeDB;
+package com.jiashn.springbootproject.changeDB.selfdefine;
 
 /**
  * @Author: jiangjs

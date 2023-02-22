@@ -1,4 +1,4 @@
-package com.jiashn.springbootproject.changeDB;
+package com.jiashn.springbootproject.changeDB.selfdefine;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 

@@ -1,4 +1,4 @@
-package com.jiashn.springbootproject.changeDB;
+package com.jiashn.springbootproject.changeDB.selfdefine;
 
 import lombok.extern.slf4j.Slf4j;
 
