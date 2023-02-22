@@ -1,4 +1,4 @@
-package com.jiashn.springbootproject.changeDB;
+package com.jiashn.springbootproject.changeDB.selfdefine;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -27,8 +27,8 @@ public class DynamicDataSourceAspect {
     /**
      * 所有方法都可以加
      */
-    @Pointcut("@annotation(com.jiashn.springbootproject.changeDB.DataSource)"
-            + "|| @within(com.jiashn.springbootproject.changeDB.DataSource)")
+    @Pointcut("@annotation(com.jiashn.springbootproject.changeDB.selfdefine.DataSource)"
+            + "|| @within(com.jiashn.springbootproject.changeDB.selfdefine.DataSource)")
     public void dataSourcePointcut(){
     }
 

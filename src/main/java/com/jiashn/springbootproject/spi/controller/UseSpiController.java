@@ -1,7 +1,7 @@
 package com.jiashn.springbootproject.spi.controller;
 
-import com.jiashn.springbootproject.changeDB.DataSource;
-import com.jiashn.springbootproject.changeDB.DataSourceType;
+import com.jiashn.springbootproject.changeDB.selfdefine.DataSource;
+import com.jiashn.springbootproject.changeDB.selfdefine.DataSourceType;
 import com.jiashn.springbootproject.spi.service.UseSelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
