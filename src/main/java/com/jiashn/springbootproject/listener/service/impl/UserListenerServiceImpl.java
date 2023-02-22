@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 /**
  * @author: jiangjs
@@ -41,6 +42,7 @@ public class UserListenerServiceImpl implements UserListenerService {
     public ResultUtil<?> selfDefineUser() {
         AdminUser adminUser = new AdminUser("queena","11111111");
         SelfDefineEvent defineEvent = new SelfDefineEvent(this, adminUser);
+        System.out.println(applicationContext.getMessage("hi", null, Locale.CHINA));
         eventPublisher.publishEvent(defineEvent);
         return ResultUtil.success();
     }
