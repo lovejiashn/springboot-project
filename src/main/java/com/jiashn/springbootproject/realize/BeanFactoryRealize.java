@@ -1,5 +1,6 @@
 package com.jiashn.springbootproject.realize;
 
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.AnnotationConfigUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -50,8 +53,20 @@ public class BeanFactoryRealize {
 
         System.out.println("打印bean2:"+factory.getBean(Bean1.class).getBean2());
         //bean处理器：针对bean的生命周期的各个阶段提供扩展,该类型BeanPostProcessor
-        factory.getBeansOfType(BeanPostProcessor.class).values().forEach(factory::addBeanPostProcessor);
+        factory.getBeansOfType(BeanPostProcessor.class).values().stream()
+                .sorted(factory.getDependencyComparator())
+                .forEach(processor -> {
+                    System.out.println(">>>>>>>>:"+processor);
+                    factory.addBeanPostProcessor(processor);
+                });
+        for (String beanDefinitionName : factory.getBeanDefinitionNames()) {
+            System.out.println(">>>>>>>>"+beanDefinitionName);
+        }
+        //提前初始化单例对象
+        factory.preInstantiateSingletons();
         System.out.println("添加bean后处理,打印bean2:"+factory.getBean(Bean1.class).getBean2());
+
+        System.out.println("bean处理顺序:"+factory.getBean(Bean1.class).getInter());
     }
 
     @Configuration
@@ -66,6 +81,16 @@ public class BeanFactoryRealize {
         public Bean2 bean2() {
             return new Bean2();
         }
+
+        @Bean
+        public Bean3 bean3() {
+            return new Bean3();
+        }
+
+        @Bean
+        public Bean4 bean4() {
+            return new Bean4();
+        }
     }
 
     @Slf4j
@@ -79,6 +104,14 @@ public class BeanFactoryRealize {
         public Bean1() {
             log.debug("构造 Bean1()");
         }
+
+        @Autowired
+        @Resource(name = "bean4")
+        private Inter bean3;
+
+        public Inter getInter(){
+            return bean3;
+        }
     }
 
     @Slf4j
@@ -88,4 +121,21 @@ public class BeanFactoryRealize {
         }
     }
 
+    interface Inter {
+
+    }
+
+    @Slf4j
+    static class Bean3 implements Inter {
+        public Bean3() {
+            log.debug("构造 Bean3()");
+        }
+    }
+
+    @Slf4j
+    static class Bean4 implements Inter {
+        public Bean4() {
+            log.debug("构造 Bean4()");
+        }
+    }
 }
