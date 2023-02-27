@@ -19,6 +19,9 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * @author jiangjs
@@ -104,7 +107,9 @@ public class ApplicationContextRealize {
         @Bean("/testContext.do")
         public Controller testController(){
            return (request, response) -> {
+               response.setContentType("text/html;charset=utf-8");
                response.getWriter().println("hello,word！");
+               response.getWriter().println("中国");
                return null;
            };
         }
