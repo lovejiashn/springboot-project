@@ -46,6 +46,9 @@ public class DynamicDataSourceLoad implements CommandLineRunner {
                 property.setUsername(dataSourceInfo.getUserName());
                 property.setPassword(dataSourceInfo.getPassword());
                 property.setUrl(dataSourceInfo.getUrl());
+                //设置连接异常时的重试次数
+                property.getDruid().setConnectionErrorRetryAttempts(3);
+                property.getDruid().setBreakAfterAcquireFailure(true);
                 DataSource dataSource = dataSourceCreator.createDataSource(property);
                 dynamicRoutingDataSource.addDataSource(dataSourceInfo.getDataSourceName(),dataSource);
             });
