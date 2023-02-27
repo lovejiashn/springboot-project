@@ -28,7 +28,7 @@ public class DynamicDataSourceLoad implements CommandLineRunner {
     /**
      * 核心动态数据源组件
      */
-    @Resource
+    @Autowired
     private DynamicRoutingDataSource dynamicRoutingDataSource;
     /**
      * Druid数据源创建器
