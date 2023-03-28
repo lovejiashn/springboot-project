@@ -40,6 +40,7 @@
         <tools.version>1.8</tools.version>
         <zxingCode.version>3.4.0</zxingCode.version>
         <tess4j.version>5.4.0</tess4j.version>
+        <aviator.version>3.0.1</aviator.version>
     </properties>
     <dependencies>
         <!--引入redis包-->
@@ -278,6 +279,11 @@
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
             <version>${zxingCode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.aviator</groupId>
+            <artifactId>aviator</artifactId>
+            <version>${aviator.version}</version>
         </dependency>
         <!--tess4j生成ocr-->
         <dependency>
