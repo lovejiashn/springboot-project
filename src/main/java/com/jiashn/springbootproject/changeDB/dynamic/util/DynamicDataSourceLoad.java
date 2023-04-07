@@ -1,7 +1,7 @@
 package com.jiashn.springbootproject.changeDB.dynamic.util;
 
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
-import com.baomidou.dynamic.datasource.creator.DruidDataSourceCreator;
+import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.List;
 
@@ -21,24 +20,24 @@ import java.util.List;
  * @description: 从数据库表中加载数据库信息并添加进入 DynamicRoutingDataSource 便于在方法中使用
  * @date: 2023/2/22 14:16
  **/
-@Component
 public class DynamicDataSourceLoad implements CommandLineRunner {
     @Autowired
     private DataSourceManageMapper manageMapper;
-    /**
-     * 核心动态数据源组件
-     */
-    @Autowired
-    private DynamicRoutingDataSource dynamicRoutingDataSource;
+
     /**
      * Druid数据源创建器
      */
     @Autowired
-    private DruidDataSourceCreator dataSourceCreator;
+    private DefaultDataSourceCreator dataSourceCreator;
+
+    @Autowired
+    private DataSource dataSource;
+
     @Override
     public void run(String... args) throws Exception {
         Wrapper<DataSourceInfo> sourceWrapper = Wrappers.<DataSourceInfo>lambdaQuery().eq(DataSourceInfo::getStatus,1);
-        List<DataSourceInfo> sources = manageMapper.selectList(sourceWrapper);
+        List<DataSourceInfo> sources = null; //manageMapper.selectList(sourceWrapper);
+        DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
         if (CollectionUtils.isNotEmpty(sources)){
             sources.forEach(dataSourceInfo -> {
                 DataSourceProperty property = new DataSourceProperty();
@@ -50,7 +49,7 @@ public class DynamicDataSourceLoad implements CommandLineRunner {
                 property.getDruid().setConnectionErrorRetryAttempts(3);
                 property.getDruid().setBreakAfterAcquireFailure(true);
                 DataSource dataSource = dataSourceCreator.createDataSource(property);
-                dynamicRoutingDataSource.addDataSource(dataSourceInfo.getDataSourceName(),dataSource);
+                ds.addDataSource(dataSourceInfo.getDataSourceName(),dataSource);
             });
         }
     }

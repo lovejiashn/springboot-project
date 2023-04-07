@@ -44,6 +44,9 @@ spring:
     scheduling:
       pool:
         size: 10
+  redis:
+    host: localhost
+    port: 6379
 clickhouse:
   datasource:
     url: jdbc:clickhouse://172.18.25.88:8123/xmjg_agcloud_0329_68?socket_timeout=30000000
@@ -89,3 +92,6 @@ agcloud:
     swagger:
       enable: true
 #设置统一返回时间格式
+#redis订阅频道
+redis:
+  channel: jiashn,lovejiashn

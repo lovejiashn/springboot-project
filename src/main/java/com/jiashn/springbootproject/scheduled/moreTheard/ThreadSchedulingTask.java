@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class ThreadSchedulingTask {
 
     @Async(value = "taskExecutor")
-    @Scheduled(cron = "0/2 * * * * ? ")
+    @Scheduled(cron = "0 * 12 * * ? ")
     public void task(){
         Thread thread = Thread.currentThread();
         log.info(thread.getName() + "：线程，执行结果............");

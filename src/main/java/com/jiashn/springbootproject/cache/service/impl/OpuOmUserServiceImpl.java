@@ -1,6 +1,7 @@
 package com.jiashn.springbootproject.cache.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.base.Objects;
 import com.jiashn.springbootproject.cache.domain.OpuOmUser;
 import com.jiashn.springbootproject.cache.mapper.OpuOmUserMapper;
 import com.jiashn.springbootproject.cache.service.OpuOmUserService;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author: jiangjs
@@ -59,10 +61,9 @@ public class OpuOmUserServiceImpl extends ServiceImpl<OpuOmUserMapper,OpuOmUser>
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
         OpuOmUserMapper mapper = sqlSession.getMapper(OpuOmUserMapper.class);
         List<OpuOmUser> users = new ArrayList<>();
-        for (OpuOmUser user : users) {
-            mapper.insert(user);
-        }
+        users.forEach(mapper::insert);
         sqlSession.flushStatements();
+        sqlSession.commit();
         return ResultUtil.success("插入成功");
     }
 }
