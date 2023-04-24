@@ -96,3 +96,5 @@ agcloud:
 #redis订阅频道
 redis:
   channel: jiashn,lovejiashn
+#配置是否加载类
+is_load_bean: false
