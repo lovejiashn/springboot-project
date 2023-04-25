@@ -1,4 +1,4 @@
-package com.jiashn.springbootproject.annotation;
+package com.jiashn.springbootproject.annotation.usetransient;
 
 import java.io.*;
 
@@ -33,7 +33,6 @@ public class Transient {
     }
 
     static Employee readDataToTxt() throws IOException, ClassNotFoundException {
-        Employee.age = 10;
         ObjectInputStream stream = new ObjectInputStream(new FileInputStream("D:\\eaafile\\text.txt"));
         Employee employee = (Employee)stream.readObject();
         stream.close();

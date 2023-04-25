@@ -1,4 +1,4 @@
-package com.jiashn.springbootproject.annotation;
+package com.jiashn.springbootproject.annotation.usetransient;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -13,14 +13,7 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 public class Employee implements Serializable {
-    public static int age = 10;
+    public transient int age;
     private String userName;
     private transient String passWord;
-
-    public Integer getAge() {
-        return age;
-    }
-    public void setAge(Integer age) {
-         Employee.age = age;
-    }
 }
