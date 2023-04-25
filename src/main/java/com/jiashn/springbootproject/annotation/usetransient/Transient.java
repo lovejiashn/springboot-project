@@ -8,7 +8,7 @@ import java.io.*;
  *                          1、Transient只能修饰在变量上，不能使用在类、方法上
  *                          2、一旦变量被Transient修饰后，序列化后无法获取访问
  *                          3、被Transient修饰的变量，不在被序列化，一个静态变量不管是否被Transient修饰，均不序列化
- * @date: 2023/3/2 9:46  雇员
+ * @date: 2023/3/2 9:46
  **/
 public class Transient {
 
