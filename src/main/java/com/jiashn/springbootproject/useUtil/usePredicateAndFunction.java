@@ -25,6 +25,8 @@ public class usePredicateAndFunction {
 
         boolean conform = conformLength(s -> s.length() > 5, "helloWord");
         System.out.println("字符串长度是否符合："+conform);
+        boolean nonConform = nonConform(s -> s.length() > 5, "helloWord");
+        System.out.println("字符串长度是否符合(非)："+nonConform);
         boolean contain = moreContain("helloWord", s -> s.contains("h"),
                 s -> s.contains("W"),
                 s -> s.contains("Word"));
@@ -74,6 +76,13 @@ public class usePredicateAndFunction {
      */
     public static boolean conformLength(Predicate<String> predicate,String word){
         return predicate.test(word);
+    }
+
+    /**
+     * 非
+     */
+    public static boolean nonConform(Predicate<String> predicate,String word){
+        return predicate.negate().test(word);
     }
 
     /**
