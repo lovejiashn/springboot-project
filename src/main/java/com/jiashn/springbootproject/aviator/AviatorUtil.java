@@ -4,6 +4,7 @@ import com.googlecode.aviator.AviatorEvaluator;
 import com.googlecode.aviator.Expression;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Map;
 import java.util.Objects;
 
@@ -16,13 +17,14 @@ import java.util.Objects;
 public class AviatorUtil<T> {
 
     /**
-     * 计算表达式
+     * 计算表达式,返回值只有Long,Double,
      * @param paraMap 参数数据，用于有时候需要进行数据替换
      * @param expression 计算表达式
      * @param <T> 返回值类型
      * @return 返回计算结果
      */
-    public static <T> T computeExp(Map<String,Object> paraMap,String expression){
+    @SuppressWarnings("unchecked")
+    public static <T> T computeExp(Map<String,Object> paraMap,@NotBlank(message = "计算表达式不能为空") String expression){
         Expression compile = AviatorEvaluator.compile(expression);
         return (T) (Objects.nonNull(paraMap) && paraMap.size() > 0 ? compile.execute(paraMap) : compile.execute());
     }

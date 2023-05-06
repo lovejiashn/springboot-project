@@ -21,10 +21,12 @@ public class UseAviator {
         paraMap.put("a",10.1);
         paraMap.put("b",10);
         paraMap.put("c",2);
-        String epx2 = "(10.0-2)*5";
-      //  Double result = AviatorUtil.<Double>computeExp(paraMap, epx);
-        Long result2 = AviatorUtil.<Long>computeExp(null, epx2);
+        String epx2 = "(a-b)*c";
+        Double result = AviatorUtil.<Double>computeExp(paraMap, epx);
+        Double maxVal = AviatorUtil.<Double>computeExp(paraMap, "max(a,b,c)");
+       // Double result2 = AviatorUtil.<Double>computeExp(paraMap, epx2);
         //System.out.println("计算结果："+result);
-        System.out.println("计算结果："+result2);
+        System.out.println("计算结果："+result);
+        System.out.println("最大值："+maxVal);
     }
 }
