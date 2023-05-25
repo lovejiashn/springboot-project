@@ -52,7 +52,7 @@ public class OpuOmUserServiceImpl extends ServiceImpl<OpuOmUserMapper,OpuOmUser>
     @Override
     public ResultUtil<OpuOmUser> deleteUserInfoByUserId(String userId) {
         opuOmUserMapper.deleteById(userId);
-        return ResultUtil.success("删除成功");
+        return ResultUtil.success();
     }
 
     @Override

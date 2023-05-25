@@ -22,13 +22,13 @@ public class ResultUtil<T> implements Serializable {
     private String msg;
     private T data;
 
-    public static <T> ResultUtil<T> success(String msg){
+   /* public static <T> ResultUtil<T> success(String msg){
         return ResultUtil.<T>builder()
                 .code(1000)
                 .msg(msg)
                 .data(null)
                 .build();
-    }
+    }*/
 
     public static <T> ResultUtil<T> success(){
         return ResultUtil.<T>builder().code(1000).msg("成功").build();
