@@ -32,20 +32,18 @@ public class FileIOUtil {
             fr = new FileReader(file);
             char[] chars = new char[1024];
             int frLen = 0;
-            StringBuilder sb = new StringBuilder();
             while ((frLen = fr.read(chars)) != -1){
-                for (int i = 0 ; i < frLen ; i++){
-                    sb.append(chars[i]);
-                }
+                String str = new String(chars,0,frLen);
+                System.out.println("FileReader读取文件内容："+str);
             }
-            System.out.println("FileReader读取文件内容："+sb);
+
             //使用FileOutputStream输入内容到文件
             String content = "只是输入的内容";
             fout = new FileOutputStream(filePath,Boolean.FALSE);
             fout.write(content.getBytes());
             //使用FileWriter写入文件内容
             String appendContent = "FileWriter写入的数据";
-            fw = new FileWriter(filePath,Boolean.TRUE);
+            fw = new FileWriter(filePath,Boolean.FALSE);
             fw.append(appendContent);
         } catch (Exception e) {
             e.printStackTrace();
