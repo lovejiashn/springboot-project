@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,6 +42,13 @@ public class SolveBreakDown {
             val = DATA_MAP.get("key");
             redisTemplate.opsForValue().set("key",val,1L, TimeUnit.MINUTES);
         }
+        return ResultUtil.success(val);
+    }
+
+    @GetMapping("/hotData.do/{key}")
+    public ResultUtil<String> solveHotData(@PathVariable("key") String key){
+        String val = redisTemplate.opsForValue().get(key);
+        log.info("获取到热门数据：" + val);
         return ResultUtil.success(val);
     }
 }
