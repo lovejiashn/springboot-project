@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @description:
  * @date: 2023/5/29 15:24
  **/
-@Component
+//@Component
 public class RedisKeyExpirationListener extends KeyExpirationEventMessageListener {
 
     private final static Logger log = LoggerFactory.getLogger(RedisKeyExpirationListener.class);
