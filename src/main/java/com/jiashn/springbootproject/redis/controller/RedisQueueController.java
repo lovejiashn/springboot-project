@@ -36,18 +36,25 @@ public class RedisQueueController {
     @PostMapping("/sendTask.do")
     public ResultUtil<?> sendTask(@RequestBody QueueTask<String> task){
         RedisQueueUtil<String> queueUtil = new RedisQueueUtil<>(QueueTypeEnum.ORDER, redisTemplate);
+        int num = 0;
+        ResultUtil<String> resultUtil;
         while (true){
-            ResultUtil<String> resultUtil = queueUtil.sendQueueTask(task,10);
+            resultUtil = queueUtil.sendQueueTask(task,10);
             if (resultUtil.getCode() != 1000){
+                if (num == 3){
+                    log.info("已重试三次，程序结束......");
+                    break;
+                }
+                num ++;
                 try {
+                    log.info("未获取到锁，休眠10s，再继续......");
                     Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                continue;
             }
-            return resultUtil;
         }
+        return resultUtil;
     }
     @GetMapping("/customerTask.do")
     public void customerTask(){
