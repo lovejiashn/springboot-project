@@ -51,4 +51,29 @@ public class SolveBreakDown {
         log.info("获取到热门数据：" + val);
         return ResultUtil.success(val);
     }
+
+    @GetMapping("/locked.do/{key}")
+    public ResultUtil<String> lockedData(@PathVariable("key") String key){
+        String val = redisTemplate.opsForValue().get(key);
+        if (StringUtils.isBlank(val)){
+            Locked locked = new Locked(redisTemplate);
+            while (true){
+                boolean lock = locked.getLock();
+                if (lock){
+                    log.info("获取到锁，拿去数据......");
+                    val = DATA_MAP.get(key);
+                   // locked.releaseLock();
+                    break;
+                } else {
+                    try {
+                        log.info("未获取到锁，10s后再试......");
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return ResultUtil.success(val);
+    }
 }
