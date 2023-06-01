@@ -31,4 +31,10 @@ public class DataDesensitizeController {
 
         return userInfoService.getUserInfoPage(pageNo, pageSize);
     }
+
+    @GetMapping("/getUserInfos.do")
+    public List<UserInfo> getUserInfos(){
+
+        return userInfoService.getUserInfos();
+    }
 }

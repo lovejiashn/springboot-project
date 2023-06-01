@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jiashn.springbootproject.desensitize.aop.JsonSensitive;
 import com.jiashn.springbootproject.desensitize.aop.Sensitive;
 import com.jiashn.springbootproject.desensitize.enums.DesensitizedStrategy;
 import lombok.Data;
@@ -37,19 +38,22 @@ public class UserInfo implements Serializable{
     /**
      * 昵称
      */
-    @Sensitive(strategy = DesensitizedStrategy.USER_NAME)
+   // @Sensitive(strategy = DesensitizedStrategy.USER_NAME)
+    @JsonSensitive(strategy = DesensitizedStrategy.USER_NAME)
     private String nickName;
 
     /**
      * 手机号
      */
-    @Sensitive(strategy = DesensitizedStrategy.PHONE)
+    //@Sensitive(strategy = DesensitizedStrategy.PHONE)
+    @JsonSensitive(strategy = DesensitizedStrategy.PHONE)
     private String phone;
 
     /**
      * 身份证号
      */
-    @Sensitive(strategy = DesensitizedStrategy.ID_CARD)
+    //@Sensitive(strategy = DesensitizedStrategy.ID_CARD)
+    @JsonSensitive(strategy = DesensitizedStrategy.ID_CARD)
     private String idCard;
 
     /**

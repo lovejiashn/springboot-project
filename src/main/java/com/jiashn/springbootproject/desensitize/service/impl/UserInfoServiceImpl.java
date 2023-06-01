@@ -33,4 +33,11 @@ public class UserInfoServiceImpl implements UserInfoService {
         page = userInfoMapper.selectPage(page, wrapper);
         return ResultUtil.success(page);
     }
+
+    @Override
+    public List<UserInfo> getUserInfos() {
+        QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("create_time");
+        return userInfoMapper.selectList(wrapper);
+    }
 }
