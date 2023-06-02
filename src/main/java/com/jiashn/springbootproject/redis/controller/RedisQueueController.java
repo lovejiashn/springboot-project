@@ -39,12 +39,17 @@ public class RedisQueueController {
         int num = 0;
         ResultUtil<String> resultUtil;
         while (true){
+            if (num == 3){
+                log.info("已重试三次，程序结束......");
+                resultUtil = ResultUtil.error("发送消息失败");
+                break;
+            }
             resultUtil = queueUtil.sendQueueTask(task,10);
+            if (resultUtil.getCode() == 6000){
+                log.info("消息重复添加，程序结束......");
+                break;
+            }
             if (resultUtil.getCode() != 1000){
-                if (num == 3){
-                    log.info("已重试三次，程序结束......");
-                    break;
-                }
                 num ++;
                 try {
                     log.info("未获取到锁，休眠10s，再继续......");
@@ -52,29 +57,11 @@ public class RedisQueueController {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            } else {
+                log.info("消息发送成功，程序结束......");
+                break;
             }
         }
         return resultUtil;
-    }
-    @GetMapping("/customerTask.do")
-    public void customerTask(){
-        RedisQueueUtil<String> queueUtil = new RedisQueueUtil<>(QueueTypeEnum.ORDER,redisTemplate);
-        Set<QueueTask<String>> queueTasks = queueUtil.loopGetTask(10);
-        for (QueueTask<String> queueTask : queueTasks) {
-            //校验当前消息是否已消费，主要防止网络延时，导致多次提交同一任务 存在
-            QueueTask<String> stringQueueTask = redisTemplate.opsForValue().get(QUEUE_TYPE + "_" + queueTask.getTaskId());
-            if (Objects.nonNull(stringQueueTask)){
-                log.info("该任务已经消费，不能重复消费");
-                redisTemplate.opsForZSet().remove(QUEUE_TYPE,queueTask);
-                continue;
-            }
-            Long removeNum = redisTemplate.opsForZSet().remove(QUEUE_TYPE,queueTask);
-            if (Objects.nonNull(removeNum) && removeNum > 0){
-                String task = queueTask.getTask();
-                log.info("消费任务数据：" + task);
-                //设置过期时间，10分钟内则默认是重复提交
-                redisTemplate.opsForValue().set(QUEUE_TYPE + "_" + queueTask.getTaskId(),queueTask,10L, TimeUnit.MINUTES);
-            }
-        }
     }
 }

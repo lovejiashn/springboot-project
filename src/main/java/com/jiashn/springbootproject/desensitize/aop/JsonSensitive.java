@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * @author: jiangjs
- * @description: 使用jackJson进行数据脱敏
+ * @description: 使用jackson进行数据脱敏
  * @date: 2023/6/1 15:50
  **/
 @Retention(RetentionPolicy.RUNTIME)

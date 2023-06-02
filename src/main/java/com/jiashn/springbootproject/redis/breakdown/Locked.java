@@ -2,8 +2,6 @@ package com.jiashn.springbootproject.redis.breakdown;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-
-import javax.annotation.Resource;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -13,6 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @date: 2023/5/31 9:33
  **/
 public class Locked {
+
     private final RedisTemplate<String,String> redisTemplate;
 
     public Locked(RedisTemplate<String,String> redisTemplate){

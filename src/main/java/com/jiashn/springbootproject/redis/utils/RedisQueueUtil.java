@@ -43,6 +43,10 @@ public class RedisQueueUtil<T> {
         //加锁
         if (getLock()){
             try {
+                Long rank = redisTemplate.opsForZSet().rank(typeEnum.getType(), queueTask);
+                if (Objects.nonNull(rank)){
+                    return ResultUtil.error(6000,"消息数据已经存在，不予添加......");
+                }
                 Boolean result = redisTemplate.opsForZSet().add(typeEnum.getType(), queueTask, System.currentTimeMillis() + time*1000);
                 if (Objects.nonNull(result) && result){
                     log.info("添加消息数据成功：" + queueTask + "，添加时间：" + LocalDateTime.now());
@@ -65,21 +69,8 @@ public class RedisQueueUtil<T> {
      * @return 返回获取到数据
      */
     public Set<QueueTask<T>> loopGetTask(int count) {
-        while (true) {
             //rangeByScore，根据score顺序获取zset数据的值
-            Set<QueueTask<T>> tasks = redisTemplate.opsForZSet().rangeByScore(typeEnum.getType(), 0, System.currentTimeMillis(), 0, count-1);
-            //数据为空时，则休眠1s，然后再继续
-            if (Objects.isNull(tasks) || tasks.isEmpty()){
-                try {
-                    log.info("------未获取消息任务------");
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                continue;
-            }
-            return tasks;
-        }
+            return redisTemplate.opsForZSet().rangeByScore(typeEnum.getType(), 0, System.currentTimeMillis(), 0, count-1);
     }
 
     /**
