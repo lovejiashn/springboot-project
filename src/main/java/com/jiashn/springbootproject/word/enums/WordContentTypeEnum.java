@@ -19,6 +19,10 @@ public enum WordContentTypeEnum {
      */
     TABLE,
     /**
+     * 列表
+     */
+    LIST,
+    /**
      * 图表
      */
     CHART;

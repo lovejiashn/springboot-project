@@ -28,12 +28,8 @@ public class PictureGenerateWord implements GenerateWord {
     @Override
     public Object generateWord(LabelData data) {
         PictureContentData picture = (PictureContentData) data;
-        String picUrl = picture.getPicUrl();
-        if (StringUtils.isNotBlank(picUrl)){
-            return new PictureRenderData(picture.getWidth(),picture.getHeight(),picture.getPicType().getPicName(),
-                    BytePictureUtils.getUrlBufferedImage(picUrl));
-        } else {
-            return new PictureRenderData(picture.getWidth(),picture.getHeight(),picture.getFile());
-        }
+        return StringUtils.isNotBlank(picture.getPicUrl()) ? new PictureRenderData(picture.getWidth(),picture.getHeight(),picture.getPicType().getPicName(),
+                BytePictureUtils.getUrlBufferedImage(picture.getPicUrl()))
+                : new PictureRenderData(picture.getWidth(),picture.getHeight(),picture.getFile());
     }
 }

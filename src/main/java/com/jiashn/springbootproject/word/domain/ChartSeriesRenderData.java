@@ -1,6 +1,7 @@
 package com.jiashn.springbootproject.word.domain;
 
 import com.deepoove.poi.data.SeriesRenderData;
+import com.jiashn.springbootproject.word.enums.CharCombinationType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -25,6 +26,11 @@ public class ChartSeriesRenderData extends LabelData {
      * 图表名称
      */
     private String title;
+
+    /**
+     * 图表类型 组合
+     */
+    private CharCombinationType charType = CharCombinationType.MULTI;
 
     /**
      * 系列对应数据

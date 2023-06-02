@@ -1,6 +1,7 @@
 package com.jiashn.springbootproject.word.realize;
 
 import com.deepoove.poi.data.ChartMultiSeriesRenderData;
+import com.deepoove.poi.data.ChartSingleSeriesRenderData;
 import com.deepoove.poi.data.SeriesRenderData;
 import com.jiashn.springbootproject.word.domain.ChartSeriesRenderData;
 import com.jiashn.springbootproject.word.domain.LabelData;
@@ -27,20 +28,33 @@ public class ChartGenerateWord implements GenerateWord {
     }
     @Override
     public Object generateWord(LabelData obj) {
-        ChartMultiSeriesRenderData seriesRenderData = new ChartMultiSeriesRenderData();
         ChartSeriesRenderData renderData  = (ChartSeriesRenderData) obj;
-        seriesRenderData.setCategories(renderData.getCategories());
-        seriesRenderData.setChartTitle(renderData.getTitle());
-        List<ChartSeriesRenderData.RenderData> renderDataList = renderData.getSenderData();
-        List<SeriesRenderData> groupData = new ArrayList<>();
-        renderDataList.forEach(data -> {
-            SeriesRenderData srd = new SeriesRenderData(data.getRenderTitle(),data.getData());
-            if (Objects.nonNull(data.getComboType())){
-                srd.setComboType(data.getComboType());
+        if (Objects.nonNull(renderData.getCharType()) && Objects.equals("Single",renderData.getCharType().getType())){
+            ChartSingleSeriesRenderData singleSeriesRenderData = new ChartSingleSeriesRenderData();
+            singleSeriesRenderData.setCategories(renderData.getCategories());
+            singleSeriesRenderData.setChartTitle(renderData.getTitle());
+            ChartSeriesRenderData.RenderData seriesData = renderData.getSenderData().get(0);
+            SeriesRenderData srd = new SeriesRenderData(seriesData.getRenderTitle(),seriesData.getData());
+            if (Objects.nonNull(seriesData.getComboType())){
+                srd.setComboType(seriesData.getComboType());
             }
-            groupData.add(srd);
-        });
-        seriesRenderData.setSeriesDatas(groupData);
-        return seriesRenderData;
+            singleSeriesRenderData.setSeriesData(srd);
+            return singleSeriesRenderData;
+        } else {
+            ChartMultiSeriesRenderData seriesRenderData = new ChartMultiSeriesRenderData();
+            seriesRenderData.setCategories(renderData.getCategories());
+            seriesRenderData.setChartTitle(renderData.getTitle());
+            List<ChartSeriesRenderData.RenderData> renderDataList = renderData.getSenderData();
+            List<SeriesRenderData> groupData = new ArrayList<>();
+            renderDataList.forEach(data -> {
+                SeriesRenderData srd = new SeriesRenderData(data.getRenderTitle(),data.getData());
+                if (Objects.nonNull(data.getComboType())){
+                    srd.setComboType(data.getComboType());
+                }
+                groupData.add(srd);
+            });
+            seriesRenderData.setSeriesDatas(groupData);
+            return seriesRenderData;
+        }
     }
 }

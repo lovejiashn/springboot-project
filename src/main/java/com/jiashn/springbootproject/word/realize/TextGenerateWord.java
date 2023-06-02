@@ -8,6 +8,7 @@ import com.jiashn.springbootproject.word.service.GenerateWord;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Objects;
 
 /**
  * @author: jiangjs
@@ -25,6 +26,7 @@ public class TextGenerateWord implements GenerateWord {
     @Override
     public Object generateWord(LabelData data) {
         TextContentData contentData = (TextContentData) data;
-        return contentData.getContent();
+        return Objects.nonNull(contentData.getLinkData()) ? contentData.getLinkData() :
+                Objects.nonNull(contentData.getRenderData()) ? contentData.getRenderData() : contentData.getContent();
     }
 }

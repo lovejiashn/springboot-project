@@ -1,12 +1,18 @@
 package com.jiashn.springbootproject.word.service.impl;
+import com.deepoove.poi.data.ChartSingleSeriesRenderData;
+import com.deepoove.poi.data.NumbericRenderData;
 import com.deepoove.poi.data.SeriesRenderData;
 import com.deepoove.poi.data.TextRenderData;
+import com.deepoove.poi.data.style.Style;
 import com.jiashn.springbootproject.word.domain.*;
+import com.jiashn.springbootproject.word.enums.CharCombinationType;
 import com.jiashn.springbootproject.word.enums.PicTypeEnum;
 import com.jiashn.springbootproject.word.enums.WordContentTypeEnum;
 import com.jiashn.springbootproject.word.realize.TableGenerateWord;
 import com.jiashn.springbootproject.word.service.ApachePoitlService;
 import com.jiashn.springbootproject.word.util.OperateWordManage;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -28,6 +34,10 @@ public class ApachePoitlServiceImpl implements ApachePoitlService {
         TextContentData contentData = new TextContentData();
         contentData.setContent("2022年月通报函生成报告").setLabelName("title").setTypeEnum(WordContentTypeEnum.TEXT);
         generates.add(contentData);
+        //带样式文本
+        TextContentData typeData = new TextContentData();
+        typeData.setRenderData(new TextRenderData("cc0000","这是带样式的内容")).setLabelName("typeContent").setTypeEnum(WordContentTypeEnum.TEXT);
+        generates.add(typeData);
         //插入图片
         PictureContentData picData = new PictureContentData();
         picData.setWidth(200).setHeight(160).setPicType(PicTypeEnum.JPG).setFile(new File("D:\\down\\java.jpg"))
@@ -40,6 +50,11 @@ public class ApachePoitlServiceImpl implements ApachePoitlService {
         tableData.setHeader(new TextRenderData[]{new TextRenderData("班级"),new TextRenderData("排名")})
                 .setContents(contents).setLabelName("showTable").setTypeEnum(WordContentTypeEnum.TABLE);
         generates.add(tableData);
+        //插入列表
+        ListRenderData listRenderData = new ListRenderData();
+        List<TextRenderData> listData = Arrays.asList(new TextRenderData("排序1"),new TextRenderData("排序2"),new TextRenderData("排序3"));
+        listRenderData.setList(listData).setPair(NumbericRenderData.FMT_LOWER_ROMAN).setTypeEnum(WordContentTypeEnum.LIST).setLabelName("numList");
+        generates.add(listRenderData);
         //折线
         ChartSeriesRenderData lineData = new ChartSeriesRenderData();
         List<ChartSeriesRenderData.RenderData> lineRenderData = new ArrayList<>();
@@ -67,6 +82,18 @@ public class ApachePoitlServiceImpl implements ApachePoitlService {
                         "云南","宁夏","新疆","湖南","北京","河北","山西","山东","内蒙古","天津","江西","吉林","河南","重庆","上海","辽宁"})
                 .setSenderData(barRenderData).setTypeEnum(WordContentTypeEnum.CHART).setLabelName("investmentRatio");
         generates.add(barData);
+        //生成饼图
+        ChartSeriesRenderData areaData = new ChartSeriesRenderData();
+        List<ChartSeriesRenderData.RenderData> areaRenderDatas = new ArrayList<>();
+        ChartSeriesRenderData.RenderData areaRenderData = new ChartSeriesRenderData.RenderData();
+        areaRenderData.setData(new Number[]{17098242, 9984670, 9826675, 9596961}).setRenderTitle("投资额")
+                .setComboType(SeriesRenderData.ComboType.AREA);
+        areaRenderDatas.add(areaRenderData);
+        areaData.setTitle("国家投资额").setSenderData(areaRenderDatas).setCharType(CharCombinationType.Single)
+                .setCategories(new String[]{"俄罗斯", "加拿大", "美国", "中国"})
+                .setLabelName("areaShow").setTypeEnum(WordContentTypeEnum.CHART);
+        generates.add(areaData);
+
         //横向柱状图
         ChartSeriesRenderData lateralData = new ChartSeriesRenderData();
         List<ChartSeriesRenderData.RenderData> lateralRenderData = new ArrayList<>();
