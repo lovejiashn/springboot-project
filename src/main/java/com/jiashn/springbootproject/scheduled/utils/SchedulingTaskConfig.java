@@ -14,16 +14,16 @@ import java.util.concurrent.ScheduledFuture;
  **/
 @Configuration
 public class SchedulingTaskConfig {
-    /**
+  /*  *//**
      * 将任务放入map便于管理
-     */
-    public static ConcurrentHashMap<String, ScheduledFuture<?>> cache = new ConcurrentHashMap<>();
+     *//*
+    public static ConcurrentHashMap<String, ScheduledFuture<?>> cache = new ConcurrentHashMap<>();*/
 
-    @Bean
+    @Bean(name = "taskSchedulerPool")
     public ThreadPoolTaskScheduler threadPoolTaskScheduler(){
         ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
         taskScheduler.setPoolSize(60);
-        taskScheduler.setThreadNamePrefix("exch-task-scheduled-");
+        taskScheduler.setThreadNamePrefix("scheduled2222-");
         taskScheduler.setAwaitTerminationSeconds(3000);
         taskScheduler.setWaitForTasksToCompleteOnShutdown(true);
         return taskScheduler;

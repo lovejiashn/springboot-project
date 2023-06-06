@@ -6,7 +6,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -18,25 +20,28 @@ import java.util.concurrent.ScheduledFuture;
 @Slf4j
 public class SchedulingTaskManage {
 
+    /**
+     * 将任务放入map便于管理
+     */
+    public static ConcurrentHashMap<String, ScheduledFuture<?>> cache = new ConcurrentHashMap<>();
 
-
-    @Autowired
-    private ThreadPoolTaskScheduler taskScheduler;
+    @Resource(name = "taskSchedulerPool")
+    private ThreadPoolTaskScheduler threadPoolTaskScheduler;
 
     /**
      * 删除定时任务
      * @param key 自定义定时任务名称
      */
     public void stopSchedulingTask(String key){
-        if (Objects.isNull(SchedulingTaskConfig.cache.get(key))){
+        if (Objects.isNull(cache.get(key))){
             log.info(String.format(".......当前key【%s】没有定时任务......",key));
             return;
         }
-        ScheduledFuture<?> future = SchedulingTaskConfig.cache.get(key);
+        ScheduledFuture<?> future = cache.get(key);
         if (Objects.nonNull(future)){
             //关闭当前定时任务
             future.cancel(Boolean.TRUE);
-            SchedulingTaskConfig.cache.remove(key);
+            cache.remove(key);
             log.info(String.format("删除【%s】对应定时任务成功",key));
         }
     }
@@ -49,9 +54,9 @@ public class SchedulingTaskManage {
      */
     public void createSchedulingTask(String key, SchedulingTaskRunnable runnable, String cron){
         this.stopSchedulingTask(key);
-        ScheduledFuture<?> schedule = taskScheduler.schedule(runnable, new CronTrigger(cron));
+        ScheduledFuture<?> schedule = threadPoolTaskScheduler.schedule(runnable, new CronTrigger(cron));
         assert schedule != null;
-        SchedulingTaskConfig.cache.put(key,schedule);
+        cache.put(key,schedule);
         log.info(String.format("【%s】创建定时任务成功",key));
     }
 }
