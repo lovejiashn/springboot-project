@@ -31,7 +31,6 @@ public class JacksonDataDesensitized extends JsonSerializer<String> implements C
     @Override
     public void serialize(String value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeString(strategy.getDesensitize().apply(value));
-
     }
 
     @Override

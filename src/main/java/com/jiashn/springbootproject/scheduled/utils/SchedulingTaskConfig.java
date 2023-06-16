@@ -14,10 +14,6 @@ import java.util.concurrent.ScheduledFuture;
  **/
 @Configuration
 public class SchedulingTaskConfig {
-  /*  *//**
-     * 将任务放入map便于管理
-     *//*
-    public static ConcurrentHashMap<String, ScheduledFuture<?>> cache = new ConcurrentHashMap<>();*/
 
     @Bean(name = "taskSchedulerPool")
     public ThreadPoolTaskScheduler threadPoolTaskScheduler(){
