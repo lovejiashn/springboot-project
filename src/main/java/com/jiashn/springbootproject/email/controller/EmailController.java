@@ -6,10 +6,7 @@ import com.jiashn.springbootproject.email.entity.ReqEmail;
 import com.jiashn.springbootproject.email.service.EmailService;
 import com.jiashn.springbootproject.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author: jiangjs
@@ -26,6 +23,11 @@ public class EmailController {
     @PostMapping("/sendEmail.do")
     public ResultUtil<?> sendEmail(ReqEmail reqEmail){
         return emailService.sendEmail(reqEmail);
+    }
+
+    @GetMapping("/sendEmailInfo.do")
+    public ResultUtil<?> sendEmailInfo(){
+        return emailService.sendEmailInfo();
     }
 
     @PostMapping("/recipientEmail.do")

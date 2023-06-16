@@ -12,7 +12,7 @@ spring:
         username: xmjg_agcloud
         password: xmjg_agcloud
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://172.18.21.54:3309/xmjg_agcloud_620000?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
+        url: jdbc:mysql://172.18.21.167:3306/xmjg_agcloud_1104?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
       clickhouse:
         url: jdbc:clickhouse://172.18.21.54:8124/xmjg_agcloud_620000?socket_timeout=30000000
         username: default
@@ -48,6 +48,11 @@ spring:
     host: localhost
     port: 6379
     timeout: 60000
+  mail:
+    host: smtp.126.com
+    port: 25
+    username: jiashn2021@126.com
+    password: DVVSIXWKAAHAZVJD
 clickhouse:
   datasource:
     url: jdbc:clickhouse://172.18.25.88:8123/xmjg_agcloud_0329_68?socket_timeout=30000000

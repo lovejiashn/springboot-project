@@ -25,4 +25,6 @@ public interface EmailService {
      * @return 返回值
      */
     ResultUtil<JSONArray> recipientEmail(EmailInfo emailInfo);
+
+    ResultUtil<?> sendEmailInfo();
 }
