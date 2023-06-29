@@ -21,6 +21,12 @@ public class UseStream {
                 new Expert("李四-lisi","男",24),
                 new Expert("李四-lisi","男",24)
         );
+
+        List<Expert> expert2 = Arrays.asList(
+                new Expert("jiashn","男",20),
+                new Expert("张三-zhangsan","女",21),
+                new Expert("王五-wangwu","男",26)
+        );
         Stream<Expert> expertStream = Stream.of(new Expert("赵一-zhaoyi", "男", 20),
                 new Expert("王定六-wangdingliu", "男", 21));
         //过滤年龄小于25的人
@@ -101,6 +107,9 @@ public class UseStream {
         List<Expert> ltExpert= collect.get(Boolean.FALSE);
         System.out.println("年龄大于23岁的数据："+gtExpert);
         System.out.println("年龄小于等于23岁的数据："+ltExpert);
-
+        //两个list多条件过滤
+        List<Expert> collect1 = experts.stream().filter(ex -> expert2.stream().anyMatch(ex2 -> Objects.equals(ex.getName(), ex2.getName())
+                && Objects.equals(ex.getGender(), ex2.getGender()))).collect(Collectors.toList());
+        System.out.println("集合数据过滤："+collect1);
     }
 }
