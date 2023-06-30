@@ -2,6 +2,8 @@ package com.jiashn.springbootproject.valid.domain;
 
 import lombok.Data;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -23,5 +25,13 @@ public class UserInfo {
 
     @NotBlank(message = "密码不能为空",groups = Default.class)
     private String password;
+
+    @Email(message = "请填写正确的email")
+    @NotBlank(message = "email不能为空")
+    private String email;
+
+    @Valid
+    @NotNull(message = "雇员信息不能为空")
+    private Employee employee;
 
 }
