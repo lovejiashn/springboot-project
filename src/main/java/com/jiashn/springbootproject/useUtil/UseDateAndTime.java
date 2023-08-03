@@ -145,5 +145,11 @@ public class UseDateAndTime {
         LocalDate firstYearDay = nowDate.with(TemporalAdjusters.firstDayOfYear());
         System.out.println("当年第一天："+firstYearDay + "；当月最后一天：" + lastYearDay);
 
+        //日期差值
+        LocalDate lastDate = LocalDate.parse("2023-08-05");
+        Period d = Period.between(nowDate,lastDate);
+        System.out.println("相差天数："+d.getDays() + "；相差分钟：" + d.getMonths());
+
+
     }
 }
