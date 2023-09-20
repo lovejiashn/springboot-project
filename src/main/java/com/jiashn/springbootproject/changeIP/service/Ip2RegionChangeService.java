@@ -2,6 +2,8 @@ package com.jiashn.springbootproject.changeIP.service;
 
 import com.jiashn.springbootproject.utils.ResultUtil;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author: jiangjs
  * @description:
@@ -14,5 +16,5 @@ public interface Ip2RegionChangeService {
      * @param ip 需转换Ip
      * @return 返回结果
      */
-    ResultUtil<String> getIpToAdress(String ip);
+    ResultUtil<String> getIpToAddress(String ip, HttpServletRequest request);
 }

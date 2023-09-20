@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * @author: jiangjs
@@ -25,7 +26,7 @@ public class GeoLiteUtil {
      * @return 返回查询结果
      * @throws UnknownHostException 异常
      */
-    public static String getCountry(String ip) throws Exception {
+    private static String getCountry(String ip) throws Exception {
         DatabaseReader reader = getDatabaseReader();
         return Objects.nonNull(reader) ? reader.city(InetAddress.getByName(ip)).getCountry().getNames().get("zh-CN") : "";
     }
@@ -36,7 +37,7 @@ public class GeoLiteUtil {
      * @return 返回查询结果
      * @throws UnknownHostException 异常
      */
-    public static String getProvince(String ip) throws Exception {
+    private static String getProvince(String ip) throws Exception {
         DatabaseReader reader = getDatabaseReader();
         return Objects.nonNull(reader) ? reader.city(InetAddress.getByName(ip)).getMostSpecificSubdivision().getNames().get("zh-CN") : "";
 
@@ -48,7 +49,7 @@ public class GeoLiteUtil {
      * @return 返回查询结果
      * @throws UnknownHostException 异常
      */
-    public static String getCity(String ip) throws Exception {
+    private static String getCity(String ip) throws Exception {
         DatabaseReader reader = getDatabaseReader();
         return Objects.nonNull(reader) ? reader.city(InetAddress.getByName(ip)).getCity().getNames().get("zh-CN") : "";
     }
@@ -59,7 +60,7 @@ public class GeoLiteUtil {
      * @return 返回查询结果
      * @throws UnknownHostException 异常
      */
-    public static JSONObject getLongitudeAndLatitude (String ip) throws Exception {
+    private static JSONObject getLongitudeAndLatitude (String ip) throws Exception {
         DatabaseReader reader = getDatabaseReader();
         JSONObject resJson = new JSONObject();
         resJson.put("latitude",0d);
@@ -93,5 +94,21 @@ public class GeoLiteUtil {
             }
         }
         return null;
+    }
+
+    /**
+     * 根据Ip获取归属信息
+     * @param ip 用户Ip
+     * @return 返回查询结果
+     * @throws Exception 异常
+     */
+    public static JSONObject getIpToAddress(String ip) throws Exception {
+        StringJoiner address = new StringJoiner(",");
+        address.add(getCountry(ip));
+        address.add(getProvince(ip));
+        address.add(getCity(ip));
+        JSONObject resJson = GeoLiteUtil.getLongitudeAndLatitude(ip);
+        resJson.put("address",String.valueOf(address));
+        return resJson;
     }
 }

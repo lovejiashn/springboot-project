@@ -79,7 +79,13 @@ public class UseReflect {
         Field nameField = clazz.getDeclaredField("name");
         log.info("获取当前类及父类指定的属性对象：" + nameField);
 
-        //获得该类所有属性对象
+        Dog dog1 = new Dog();
+        dog1.setName("小希希");
+        dog1.setBreed("边牧");
+        Field breed = dog1.getClass().getDeclaredField("breed");
+        Object o1 = breed.get(dog1);
+        log.info("获取小希希的品种属性值：" + o1);
+        //获得该类所有属性对象 指标
         Field[] clzFields = clazz.getDeclaredFields();
         for (Field field : clzFields) {
             log.info("获得该类所有属性对象：" + field);

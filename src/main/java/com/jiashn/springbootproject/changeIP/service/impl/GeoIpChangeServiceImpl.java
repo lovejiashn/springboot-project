@@ -25,18 +25,16 @@ public class GeoIpChangeServiceImpl implements GeoIpChangeService {
     @Override
     public ResultUtil<JSONObject> getIpAddress(String ip,HttpServletRequest request) {
         try {
-           // ip = GetUserIP.getUserIpAddress(request);
-            StringJoiner address = new StringJoiner(",");
-            address.add(GeoLiteUtil.getCountry(ip));
-            address.add(GeoLiteUtil.getProvince(ip));
-            address.add(GeoLiteUtil.getCity(ip));
-            JSONObject resJson = GeoLiteUtil.getLongitudeAndLatitude(ip);
-            resJson.put("address",String.valueOf(address));
-            return ResultUtil.success(resJson);
+            return ResultUtil.success(GeoLiteUtil.getIpToAddress(ip));
         }catch (Exception e){
             e.printStackTrace();
             log.error("ip转换国家、省、城市、经纬度报错：{}",e.getMessage());
         }
         return ResultUtil.error("获取ip对应地址等信息报错");
+    }
+
+    @Override
+    public ResultUtil<JSONObject> getLocationIpAddress(HttpServletRequest request) {
+        return null;
     }
 }

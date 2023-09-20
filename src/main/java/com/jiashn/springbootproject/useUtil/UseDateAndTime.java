@@ -150,6 +150,8 @@ public class UseDateAndTime {
         Period d = Period.between(nowDate,lastDate);
         System.out.println("相差天数："+d.getDays() + "；相差分钟：" + d.getMonths());
 
-
+        Period diff = Period.between(LocalDate.parse("2021-08-31"),
+                LocalDate.parse("2022-11-30"));
+        System.out.println("相隔月份："+diff.getMonths());
     }
 }

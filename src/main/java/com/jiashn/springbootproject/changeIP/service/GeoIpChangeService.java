@@ -20,4 +20,6 @@ public interface GeoIpChangeService {
      * @return 地址
      */
     ResultUtil<JSONObject> getIpAddress(String ip, HttpServletRequest request);
+
+    ResultUtil<JSONObject> getLocationIpAddress(HttpServletRequest request);
 }

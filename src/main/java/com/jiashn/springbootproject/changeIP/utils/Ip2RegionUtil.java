@@ -32,7 +32,7 @@ public class Ip2RegionUtil {
      * @param ip ip
      * @return 返回地址
      */
-    public String changeIpToAdress(String ip){
+    public String changeIpToAddress(String ip){
         //获取searcher
         Searcher searcher = null;
         try {
