@@ -19,6 +19,9 @@ import java.util.stream.Collectors;
  **/
 public class useSupplierAndConsumer {
     public static void main(String[] args) {
+        String taskCode = TaskCodeEnum.SUB_TASK.getTaskCode().get();
+        System.out.println("获取任务编码结果：" + taskCode);
+
         List<String> data = Arrays.asList("张无忌","张翠山","张三丰","小昭","赵敏","白眉鹰王");
         //使用Supplier获取姓张的人
         Supplier<List<String>> supplier = () -> {
