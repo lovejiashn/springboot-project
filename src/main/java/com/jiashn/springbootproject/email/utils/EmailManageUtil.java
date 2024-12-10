@@ -51,13 +51,13 @@ public class EmailManageUtil {
                     messageHelper.addAttachment(k,attachmentMap.get(k));
                 }
             }
-            if (Objects.nonNull(message.getCcPerson()) && message.getCcPerson().length > 0){
+            if (StringUtils.isNoneBlank(message.getCcPerson())){
                 messageHelper.setCc(message.getCcPerson());
             }
-            if (Objects.nonNull(message.getBccPerson()) && message.getBccPerson().length > 0){
+            if (StringUtils.isNoneBlank(message.getBccPerson())){
                 messageHelper.setBcc(message.getBccPerson());
             }
-            if (Objects.nonNull(message.getSentTo()) && message.getSentTo().length > 0){
+            if (StringUtils.isNoneBlank(message.getSentTo())){
                 messageHelper.setTo(message.getSentTo());
             }
             messageHelper.setFrom(message.getSender());

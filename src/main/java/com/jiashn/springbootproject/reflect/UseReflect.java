@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.Objects;
 @Slf4j
 public class UseReflect {
 
-    public static void main(String[] args) throws IllegalAccessException, InstantiationException, NoSuchFieldException, NoSuchMethodException {
+    public static void main(String[] args) throws IllegalAccessException, InstantiationException, NoSuchFieldException, NoSuchMethodException, ClassNotFoundException {
         Class<Animal> clazz = Animal.class;
         Class<Dog> dogClazz = Dog.class;
         //获取类加载器
@@ -45,6 +46,7 @@ public class UseReflect {
         dog.setName("橙橙");
         dog.setBreed("柴犬");
         log.info("创建类的实例：" + dog.getName());
+        log.info("类简写名称：" + dog.getClass().getSimpleName());
 
         //获取当前类的完整路径名称
         String name = dogClazz.getName();
@@ -103,6 +105,18 @@ public class UseReflect {
 
         Method method = dogClazz.getDeclaredMethod("getBreed");
         log.info("获取getBreed方法：" + method);
+
+        Class<?> aClass1 = Class.forName("com.jiashn.springbootproject.reflect.domain.Dog");
+        Method[] setMethod = aClass1.getMethods();
+        for (Method method1 : setMethod) {
+            if (Objects.equals(method1.getName(),"getOther")){
+                Parameter[] parameters = method1.getParameters();
+                for (Parameter parameter : parameters) {
+                    log.info("获取getOther方法参数：" + parameter.getName() + ":参数类型：" + parameter.getType());
+                }
+            }
+        }
+
         Method[] declaredMethods = dogClazz.getDeclaredMethods();
         for (Method declaredMethod : declaredMethods) {
              log.info("获取Dog所有方法：" + declaredMethod);

@@ -9,6 +9,7 @@ import com.jiashn.springbootproject.desensitize.aop.JsonSensitive;
 import com.jiashn.springbootproject.desensitize.aop.Sensitive;
 import com.jiashn.springbootproject.desensitize.enums.DesensitizedStrategy;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ import java.util.Date;
  * @date: 2022/4/15 11:33
  **/
 @Data
+@Accessors(chain = true)
 @TableName( autoResultMap = true,value = "t_user_info")
 public class UserInfo implements Serializable{
 

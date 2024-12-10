@@ -40,7 +40,6 @@ public class EmailServiceImpl implements EmailService {
         SendMailMessage mailMessage = new SendMailMessage();
         mailMessage.setSubject("测试一下而已").setContext("<p>就是为了测试</p>")
                 .setSentTo(new String[]{"421582841@qq.com"}).setSender("jiashn2021@126.com");
-        boolean b = emailManageUtil.sendMail(mailMessage);
-        return b ? ResultUtil.success() : ResultUtil.error("发送失败");
+        return emailManageUtil.sendMail(mailMessage) ? ResultUtil.success() : ResultUtil.error("发送失败");
     }
 }

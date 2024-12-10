@@ -41,6 +41,11 @@
         <zxingCode.version>3.4.0</zxingCode.version>
         <tess4j.version>5.4.0</tess4j.version>
         <aviator.version>3.0.1</aviator.version>
+        <libphonenumber.version>8.13.26</libphonenumber.version>
+        <libphonenumber.geocoder>2.220</libphonenumber.geocoder>
+        <libphonenumber.carrier>1.210</libphonenumber.carrier>
+        <rapidocr.version>0.0.6</rapidocr.version>
+        <pdfbox.version>2.0.28</pdfbox.version>
     </properties>
     <dependencies>
         <!--引入redis包-->
@@ -294,6 +299,41 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.libphonenumber</groupId>
+            <artifactId>libphonenumber</artifactId>
+            <version>${libphonenumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.libphonenumber</groupId>
+            <artifactId>carrier</artifactId>
+            <version>${libphonenumber.carrier}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.libphonenumber</groupId>
+            <artifactId>geocoder</artifactId>
+            <version>${libphonenumber.geocoder}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mymonstercat</groupId>
+            <artifactId>rapidocr-onnx-platform</artifactId>
+            <version>${rapidocr.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>${pdfbox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openpnp</groupId>
+            <artifactId>opencv</artifactId>
+            <version>4.6.0-0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.drewnoakes</groupId>
+            <artifactId>metadata-extractor</artifactId>
+            <version>2.16.0</version>
         </dependency>
     </dependencies>
 

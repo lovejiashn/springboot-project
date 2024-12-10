@@ -2,6 +2,8 @@ server:
   port: 8070
   servlet:
     context-path: /project
+  tomcat:
+    basedir: /tmp/tomcat
 #配置mybatis-plus对应mapper.xml位置
 #配置数据库mysql
 spring:
@@ -103,3 +105,4 @@ redis:
   channel: jiashn,lovejiashn
 #配置是否加载类
 is_load_bean: false
+#临时目录

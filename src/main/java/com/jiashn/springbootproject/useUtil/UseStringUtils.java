@@ -54,5 +54,66 @@ public class UseStringUtils {
         //是否全部不包含空值或空格
         System.out.println("是否全部不包含空值或空格："+StringUtils.isNoneBlank(one,three));
 
+        //截取超过长度字段,超过部分并用...代替(获取字符长度=n-3(即点号的个数))
+        System.out.println("截取超过长度字段："+StringUtils.abbreviate(one,6));
+        //中间部分字符串替代
+        System.out.println("中间截取长度字段："+StringUtils.abbreviateMiddle("13501544929","***",10));
+        //是否以某字段结尾，否则添加，是则直接返回字符串
+        System.out.println("是否以某字段结尾，否则添加，是则直接返回字符串："+StringUtils.appendIfMissing("jiashn",".com"));
+        //首字母大写
+        System.out.println("首字母大写："+StringUtils.capitalize("jiashn"));
+        //字符串两边添加特殊字符
+        System.out.println("字符串两边添加特殊字符："+StringUtils.center("jiashn",10,'*'));
+        //字符左边添加特殊字符
+        System.out.println("字符左边添加特殊字符："+StringUtils.leftPad("jiashn",10,'*'));
+        //字符右边添加特殊字符
+        System.out.println("字符右边添加特殊字符："+StringUtils.rightPad("jiashn",10,'*'));
+        //左边字符串中的每一个字符必须出现在右边字符串中
+        System.out.println("左边字符串中的每一个字符必须出现在右边字符串中："+StringUtils.containsOnly("xx","jiashn"));
+        System.out.println("左边字符串中的每一个字符必须出现在右边字符串中："+StringUtils.containsOnly("xxx",'a','x'));
+        //检测字符串中是否包含空白，包含回车和换行等空白符号
+        System.out.println("检测字符串中是否包含空白："+StringUtils.containsWhitespace("jias\nhn"));
+        //如果字符串为空白，则用一个默认字符串代替
+        System.out.println("如果字符串为空白，则用一个默认字符串代替："+StringUtils.defaultIfBlank(" ", "jiashn"));
+        System.out.println("如果字符串为空白，则用一个默认字符串代替："+StringUtils.defaultIfEmpty(" ", "456"));
+        System.out.println("如果字符串为空白，则用一个默认字符串代替："+StringUtils.defaultString(null, "322"));
+        //删除字符串中的空白
+        System.out.println("删除字符串中的空白："+StringUtils.deleteWhitespace(one));
+        //去除参数2字符串中与参数1字符串中相同的部分
+        System.out.println("去除参数2字符串中与参数1字符串中相同的部分："+StringUtils.difference("jia", "jiashn"));
+        //字符串是否以指定的一个或者多个字符串中的其中一个结尾
+        System.out.println("字符串是否以指定的一个或者多个字符串中的其中一个结尾："+StringUtils.endsWithAny("jiashn", "xxx","hn"));
+        //指定多个对比的字符串，有一个与主字符串相等即可
+        System.out.println("指定多个对比的字符串，有一个与主字符串相等即可："+StringUtils.equalsAny("jiashn", "xxx","jiashn"));
+        //获得一组字符串中第一个非空白的字符
+        System.out.println("获得一组字符串中第一个非空白的字符："+StringUtils.firstNonBlank(" ", "jiashn"));
+        System.out.println("获得一组字符串中第一个非空白的字符："+StringUtils.firstNonEmpty(" ", "jiashn"));
+        //获得一组字符串公共部分的前缀
+        System.out.println("获得一组字符串公共部分的前缀："+StringUtils.getCommonPrefix("jiashn", "jia","ja"));
+        //提取字符串中数值部分
+        System.out.println("提取字符串中数值部分："+StringUtils.getDigits("jiashn123"));
+        //截取字符串左侧指定长度的字符串
+        System.out.println("截取字符串左侧指定长度的字符串："+StringUtils.left("jiashn",3));
+        //截取字符串右侧指定长度的字符串
+        System.out.println("截取字符串右侧指定长度的字符串："+StringUtils.right("jiashn",3));
+        //截取字符串某一部分
+        System.out.println("截取字符串某一部分："+StringUtils.mid("jiashn.com",0,3));
+        //覆盖字符串中指定位置的子串
+        System.out.println("覆盖字符串中指定位置的子串："+StringUtils.overlay("13401892910", "****", 3, 7));
+        //将字符串最后的指定个数字符提前
+        System.out.println("将字符串最后的指定个数字符提前："+StringUtils.rotate("jiashn",2));
+        //去除字符串两边的字符串，要去除的字符串可自己设定
+        System.out.println("去除字符串左边的字符串："+StringUtils.strip("jiashn", "jn"));
+        //批量去除两侧指定的字符串
+        System.out.println("批量去除两侧指定的字符串："+ Arrays.toString(StringUtils.stripAll(new String[]{"jiashn", "jjjasnn"}, "jn")));
+       //获取最后一个分隔符之后的字符串
+        System.out.println("获取最后一个分隔符之后的字符串："+StringUtils.substringAfterLast("jia.shn.com","."));
+        //获得两个分隔符中间方部分字符串
+        System.out.println("获得两个分隔符中间方部分字符串："+StringUtils.substringBetween("jia.shn.com",".","."));
+        //有指定字符串填充字符串两边
+        System.out.println("有指定字符串填充字符串两边："+StringUtils.wrap("jiashn",'*'));
+        //如果指定的字符串不存在，则用这个字符串填充字符串的两边
+        System.out.println("如果指定的字符串不存在，则用这个字符串填充字符串的两边："+StringUtils.wrapIfMissing("jiashn","#"));
+
     }
 }
